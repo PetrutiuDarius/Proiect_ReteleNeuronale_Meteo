@@ -1,0 +1,14 @@
+# --- Mediu Virtual (CEL MAI IMPORTANT) ---
+.venv/
+venv/
+ENV/
+
+# --- Python ---
+__pycache__/
+*.pyc
+
+# --- PyCharm (Setari locale) ---
+.idea/
+
+# --- Altele ---
+.DS_Store

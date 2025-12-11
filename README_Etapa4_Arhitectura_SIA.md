@@ -31,7 +31,24 @@ Sistemul este compus din 3 module interconectate:
 
 ## 2. Contribuția originală la setul de date – 41%
 
-Pentru a asigura capacitatea sistemului de a reacționa la schimbări climatice, am decis să nu mă bazez doar pe date istorice (care conțin puține extreme), ci să **simulez scenarii de fenomene extreme specifice microclimatului Bucureștiului**.
+### De ce am simulat date?
+Datele istorice reale din București (2020-2024) sunt corecte, dar "plictisitoare" pentru o Rețea Neuronală care trebuie să detecteze pericole. În 5 ani, am avut foarte puține cazuri de temperaturi > 40°C sau furtuni devastatoare.
+Dacă antrenăm rețeaua doar pe date reale, ea va învăța că "totul e mereu bine".
+
+**Soluția mea:** Am creat un **Dataset Hibrid**.
+Am concatenat (alipit) datele reale cu 25,000 de ore de scenarii de coșmar simulate statistic (`src/data_acquisition/synthetic_generator.py`).
+
+### Statistici Dataset Hibrid
+Iată dovada că datele simulate (Sintetic) aduc valorile extreme pe care modelul trebuie să le învețe:
+
+| Anul    | Tip Date | Temp Max (°C) | Vânt Max (m/s) | Presiune Min (hPa) |
+|---------|----------|---------------|----------------|--------------------|
+| 2020    | Real     | 35.3          | 12.6           | 981.3              |
+| 2021    | Real     | 36.7          | 11.9           | 982.5              |
+| 2022    | Real     | 36.2          | 10.6           | 982.8              |
+| 2023    | Real     | 38.0          | 10.4           | 978.5              |
+| 2024    | Real     | 38.9          | 11.5           | 980.4              |
+| Simulat | Sintetic | **44.0**      | **30.0**       | **965.1**          |
 
 ### Calcul procentaj contribuție:
 
@@ -54,8 +71,11 @@ Aceste date sunt etichetate automat ca `is_simulated=1` și sunt folosite pentru
 
 **Locația codului:** `src/data_acquisition/synthetic_generator.py`<br />
 **Locația datelor:** `data/generated/`<br />
-**Dovezi:**
-- Grafic comparativ (Distribuție Real vs Simulat): `docs/distribution_comparison.png`
+
+### Vizualizare Distribuție
+Graficul de mai jos arată cum datele simulate (Roșu) extind "coada" distribuției spre temperaturi extreme, zonă neacoperită de datele istorice (Albastru).
+
+![Comparatie Distributie](docs/distribution_comparison.png)
 
 ---
 
@@ -73,9 +93,9 @@ Stările principale sunt:
 
 Tranziția critică este **ALERT_LOGIC → TRIGGER_ALARM**, care are prioritate maximă pentru a notifica operatorul în interfața web.
 
-*(Diagrama vizuală se regăsește în `docs/state_machine.png`)*
+*(Diagrama vizuală se regăsește în `docs/state-machine-RN.png`)*
 
-![img.png](img.png)
+![/docs/state-machine-RN.png](/docs/state-machine-RN.png)
 
 ---
 
@@ -104,23 +124,23 @@ Interfața de interacțiune cu utilizatorul.
 ```text
 Proiect_ReteleNeuronale_Meteo/
 ├── data/
-│   ├── raw/                 # Date istorice Open-Meteo
-│   ├── generated/           # Date sintetice (Extreme Events - 40%)
-│   ├── processed/           # Dataset final combinat și normalizat
-│   ├── train/               # Set antrenare hibrid
-│   └── test/                # Set testare
+│   ├── raw/                 # Date istorice brute
+│   ├── generated/           # Date sintetice (Extreme) + Dataset Hibrid
+│   ├── train/               # Date antrenare (Real 2020-2023 + Toate Extremele)
+│   ├── validation/          # Date validare (Real 2024 Luni Impare)
+│   ├── test/                # Date testare (Real 2024 Luni Pare)
+│   └── scalers/             # Scalerul salvat (.pkl) pentru denormalizare
 ├── src/
-│   ├── data_acquisition/    # Scripturi descărcare + generare sintetică
+│   ├── config.py            # Setări Globale (Locație, Praguri Extreme)
+│   ├── data_acquisition/    # Modul 1: Generare Date
 │   │   ├── data_loader.py
 │   │   └── synthetic_generator.py
-│   ├── preprocessing/       # Curățare și normalizare
-│   ├── neural_network/      # Definiție model RN
-│   │   └── model_architecture.py
-│   └── app/                 # Interfață Web
-│       └── dashboard.py
+│   ├── processing/          # Modul Procesare
+│   │   └── split_data.py    # Împărțire Train/Test & Normalizare
+│   ├── neural_network/      # Modul 2: AI (Urmează în Etapa 5)
+│   └── app/                 # Modul 3: UI (Urmează)
 ├── docs/
-│   ├── state_machine.png    # Diagrama stărilor
-│   └── screenshots/         # Dovezi funcționare UI
-├── models/                  # Folder pentru salvarea modelului (.h5 / .keras)
-├── README.md                # Readme General
-└── README_Etapa4_Arhitectura_SIA.md  # Acest document
+│   ├── state-machine-RN.png        # Diagrama Arhitectură
+│   └── distribution_comparison.png # Grafic Statistic
+├── main.py                  # Orchestrator Principal
+└── README_Etapa4...md       # Documentația curentă

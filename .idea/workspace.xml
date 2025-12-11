@@ -4,9 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9f34c434-bcbe-4f42-8c2a-f9209ac9dc18" name="Changes" comment="Am modificat structurarea datelor de validate si de test.">
-      <change afterPath="$PROJECT_DIR$/img.png" afterDir="false" />
+    <list default="true" id="9f34c434-bcbe-4f42-8c2a-f9209ac9dc18" name="Changes" comment="Etapa 4&#10;Realizarea README Etapa 4 si diagrama state machine.">
+      <change afterPath="$PROJECT_DIR$/src/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/config.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/data_acquisition/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/data_acquisition/synthetic_generator.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generate_docs.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/processing/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README_Etapa4_Arhitectura_SIA.md" beforeDir="false" afterPath="$PROJECT_DIR$/README_Etapa4_Arhitectura_SIA.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/img.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data_loader.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/data_acquisition/data_loader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/split_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/processing/split_data.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,29 +53,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/dariu/Desktop/Retele Neuronale - RN/Proiect/Proiect_ReteleNeuronale_Meteo&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "Python.generate_docs.executor": "Run",
+    "Python.main.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "main",
+    "junie.onboarding.icon.badge.shown": "true",
+    "last_opened_file_path": "C:/Users/dariu/Desktop/Retele Neuronale - RN/Proiect/Proiect_ReteleNeuronale_Meteo/docs",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "to.speed.mode.migration.done": "true",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\dariu\Desktop\Retele Neuronale - RN\Proiect\Proiect_ReteleNeuronale_Meteo\docs" />
       <recent name="C:\Users\dariu\Desktop\Retele Neuronale - RN\Proiect\Proiect_ReteleNeuronale_Meteo" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\dariu\Desktop\Retele Neuronale - RN\Proiect\Proiect_ReteleNeuronale_Meteo\src\processing" />
+      <recent name="C:\Users\dariu\Desktop\Retele Neuronale - RN\Proiect\Proiect_ReteleNeuronale_Meteo\src\data_acquisition" />
     </key>
   </component>
   <component name="RunManager">
@@ -118,7 +134,8 @@
       <workItem from="1763630725654" duration="1770000" />
       <workItem from="1763671484530" duration="3000" />
       <workItem from="1764231487827" duration="4438000" />
-      <workItem from="1764835771649" duration="5118000" />
+      <workItem from="1764835771649" duration="5405000" />
+      <workItem from="1765440900593" duration="4491000" />
     </task>
     <task id="LOCAL-00001" summary="Am modificat structurarea datelor de validate si de test.">
       <option name="closed" value="true" />
@@ -128,7 +145,15 @@
       <option name="project" value="LOCAL" />
       <updated>1764236432425</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Etapa 4&#10;Realizarea README Etapa 4 si diagrama state machine.">
+      <option name="closed" value="true" />
+      <created>1764841796826</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1764841796826</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -147,9 +172,11 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Am modificat structurarea datelor de validate si de test." />
-    <option name="LAST_COMMIT_MESSAGE" value="Am modificat structurarea datelor de validate si de test." />
+    <MESSAGE value="Etapa 4&#10;Realizarea README Etapa 4 si diagrama state machine." />
+    <option name="LAST_COMMIT_MESSAGE" value="Etapa 4&#10;Realizarea README Etapa 4 si diagrama state machine." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Proiect_ReteleNeuronale_Meteo$main.coverage" NAME="main Coverage Results" MODIFIED="1764837596599" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Proiect_ReteleNeuronale_Meteo$main.coverage" NAME="main Coverage Results" MODIFIED="1765443413648" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Proiect_ReteleNeuronale_Meteo$generate_docs.coverage" NAME="generate_docs Coverage Results" MODIFIED="1765445048873" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
   </component>
 </project>

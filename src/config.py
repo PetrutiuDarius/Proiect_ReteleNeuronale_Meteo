@@ -60,3 +60,21 @@ EXTREME_SCENARIOS = {
 
 # Target size for the synthetic dataset (approx 25k hours)
 SYNTHETIC_SAMPLES_TARGET = 25000
+
+# --- NEURAL NETWORK HYPERPARAMETERS ---
+# How many past hours the model sees to make a prediction
+SEQ_LENGTH = 24
+
+# How many hours into the future we want to predict
+PREDICT_HORIZON = 6
+
+# Features used for training (must match dataframe columns)
+# Note: 'is_simulated' is excluded from input features to force the model to learn patterns, not labels
+FEATURE_COLS = ['temperature', 'humidity', 'pressure', 'wind_speed']
+TARGET_COL = 'temperature' # We are predicting temperature
+
+# Training settings
+BATCH_SIZE = 64        # Number of samples processed before updating weights
+EPOCHS = 50            # NUmber of complete passes through the dataset
+LEARNING_RATE = 0.001  # Step size for the optimizer
+PATIENCE = 10          # Early stopping patience (stop if no improvement after 10 epochs)

@@ -4,11 +4,13 @@ import os
 # --- PATHS ---
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_DIR = os.path.join(BASE_DIR, 'data')
+CONFIG_DIR = os.path.join(BASE_DIR, 'config')
 
 RAW_DATA_PATH = os.path.join(DATA_DIR, 'raw', 'weather_history_raw.csv')
 GENERATED_DATA_PATH = os.path.join(DATA_DIR, 'generated', 'synthetic_extremes.csv')
 HYBRID_DATA_PATH = os.path.join(DATA_DIR, 'generated', 'hybrid_dataset.csv')
 PROCESSED_DATA_PATH = os.path.join(DATA_DIR, 'processed', 'final_normalized.csv')
+SCALER_PATH = os.path.join(DATA_DIR, 'scalers', 'minmax_scaler.pkl')
 
 # --- LOCATION SETTINGS (Default: Bucharest) ---
 LOCATION = {

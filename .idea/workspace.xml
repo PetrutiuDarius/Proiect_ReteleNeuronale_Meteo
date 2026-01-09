@@ -5,9 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9f34c434-bcbe-4f42-8c2a-f9209ac9dc18" name="Changes" comment="Etapa 5&#10;Realizarea documentatiei initiale pentru etapa 5 cu obiectivele etapei.">
-      <change afterPath="$PROJECT_DIR$/src/neural_network/evaluate.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README_Etapa5_Antrenare_RN.md" beforeDir="false" afterPath="$PROJECT_DIR$/README_Etapa5_Antrenare_RN.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -184,7 +183,7 @@
       <workItem from="1766045372711" duration="129000" />
       <workItem from="1766045718239" duration="2372000" />
       <workItem from="1766048851909" duration="320000" />
-      <workItem from="1767978596308" duration="15489000" />
+      <workItem from="1767978596308" duration="17322000" />
     </task>
     <task id="LOCAL-00001" summary="Am modificat structurarea datelor de validate si de test.">
       <option name="closed" value="true" />

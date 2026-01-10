@@ -1,9 +1,14 @@
 # src/neural_network/evaluate.py
+"""
+Model Evaluation Module.
+
+Loads the trained model and test data, performs multi-target inference,
+calculates regression metrics (MAE, RMSE, R2) for each weather parameter individually,
+and generates comparative plots.
+"""
+
 import os
 import warnings
-os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
-warnings.filterwarnings('ignore')
 import json
 import pandas as pd
 import numpy as np
@@ -12,8 +17,41 @@ import joblib
 from tensorflow.keras.models import load_model
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
+# --- Environment Setup (Clean Console) ---
+os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+warnings.filterwarnings("ignore")
+
 from src import config
 from src.neural_network.data_generator import TimeSeriesGenerator
+
+
+def apply_physics_constraints(data: np.ndarray, feature_names: list) -> np.ndarray:
+    """
+    Post-processing filter to enforce physical laws on predictions.
+
+    Rules applied:
+    1. Non-Negativity: Variables like Rain, Humidity, Wind cannot be negative.
+    2. Saturation: Humidity cannot exceed 100%.
+    3. Noise gating: Very small precipitation values (<0.05mm) are clamped to 0.
+    """
+    corrected_data = data.copy()
+
+    for i, name in enumerate(feature_names):
+        # Clip negative values to 0 for scalar physical quantities
+        if name in ['humidity', 'wind_speed', 'precipitation']:
+            corrected_data[:, i] = np.maximum(corrected_data[:, i], 0.0)
+
+        # Cap humidity at 100%
+        if name == 'humidity':
+            corrected_data[:, i] = np.minimum(corrected_data[:, i], 100.0)
+
+        # Rain noise gate (suppress 'micro-rain' hallucinations)
+        if name == 'precipitation':
+            # Values smaller than 0.05mm are likely model noise, treat as dry
+            corrected_data[:, i] = np.where(corrected_data[:, i] < 0.05, 0.0, corrected_data[:, i])
+
+    return corrected_data
 
 def evaluate_model():
     print("==========================================")
@@ -27,9 +65,11 @@ def evaluate_model():
 
     # Checks
     if not os.path.exists(model_path):
-        raise FileNotFoundError("Model not found. Run train_model.py first.")
+        print(f"Model not found at {model_path}. Run training first.")
+        return
     if not os.path.exists(scaler_path):
-        raise FileNotFoundError("Scaler not found. Run split_data.py first.")
+        print(f"Scaler not found at {scaler_path}. Run preprocessing first.")
+        return
 
     # Load artifacts
     print("Loading model and scaler...")
@@ -45,78 +85,89 @@ def evaluate_model():
         input_width=config.SEQ_LENGTH,
         label_width=config.PREDICT_HORIZON,
         feature_cols=config.FEATURE_COLS,
-        target_col=config.TARGET_COL
+        target_cols=config.TARGET_COLS
     )
 
     X_test, y_test = gen.create_sequences(df_test)
-    print(f"Test samples generated: {X_test.shape[0]}")
+    print(f"Test samples generated: {X_test.shape}")
 
     # Run interface (prediction)
     print("Running prediction on test set...")
     y_pred_scaled = model.predict(X_test, verbose=0)
 
     # Denormalize data (inverse transform)
-    # The model predicts scaled values (0-1) and we need real degrees Celsius.
-    # The scaler expects 4 columns (temp, hum, pres, wind), but we only predicted Temp.
-    # I need to create a dummy matrix to trick the scaler inverse_transform.
+    print("Denormalize data...")
+    y_pred_real = scaler.inverse_transform(y_pred_scaled)
+    y_true_real = scaler.inverse_transform(y_test)
 
-    def denormalize(y_scaled_array):
-        # Create a placeholder matrix with zeros for other features
-        dummy_matrix = np.zeros((len(y_scaled_array), len(config.FEATURE_COLS)))
-        # Put our predicted temperature in the first column (index 0) - assuming Temp is the first feature
-        dummy_matrix[:, 0] = y_scaled_array.flatten()
-        # Inverse transform
-        inversed = scaler.inverse_transform(dummy_matrix)
-        # Returns only the temperature column
-        return inversed[:,0]
+    # Apply physics constraints
+    print("Applying physics-informed post-processing...")
+    y_pred_real = apply_physics_constraints(y_pred_real, config.TARGET_COLS)
 
-    y_pred_real = denormalize(y_pred_scaled)
-    y_true_real = denormalize(y_test)
+    # Metrics and plotting loop
+    metrics_json = {}
+    feature_names = config.TARGET_COLS
 
-    # Calculate metrics
-    mae = mean_absolute_error(y_true_real, y_pred_real)
-    rmse = np.sqrt(mean_squared_error(y_true_real, y_pred_real))
-    r2 = r2_score(y_true_real, y_pred_real)
+    # Initialize plot (5 sublots, one for each feature)
+    fig, axes = plt.subplots(len(feature_names), 1, figsize=(12, 20), sharex=True)
+    limit = 200 # I plot only the first 200 hours
 
-    print("\n------------------------------------------------")
-    print(f"   RESULTS (Test Set 2024)")
-    print("------------------------------------------------")
-    print(f"   MAE  (Eroare Medie Absoluta): {mae:.4f} °C")
-    print(f"   RMSE (Eroare Patratica Medie): {rmse:.4f} °C")
-    print(f"   R2 Score (Potrivire): {r2:.4f}")
-    print("------------------------------------------------")
+    print("\n" + "="*50)
+    print("   DETAILED PERFORMANCE REPORT")
+    print("=" * 50)
 
-    # Save metrics to JSON
-    metrics = {
-        "test_mae": float(mae),
-        "test_rmse": float(rmse),
-        "test_r2": float(r2)
-    }
+    for i, col_name in enumerate(feature_names):
+        # Extract data for this specific feature
+        true_vals = y_true_real[:, i]
+        pred_vals = y_pred_real[:, i]
 
-    results_dir = os.path.join(config.BASE_DIR, 'results')
-    os.makedirs(results_dir, exist_ok=True)
+        # Calculate metrics
+        mae = mean_absolute_error(true_vals, pred_vals)
+        rmse = np.sqrt(mean_squared_error(true_vals, pred_vals))
+        r2 = r2_score(true_vals, pred_vals)
 
-    with open(os.path.join(results_dir, 'test_metrics.json'), 'w') as f:
-        json.dump(metrics, f, indent=4)
-    print("Metrics saved to results/test_metrics.json")
+        # Save to dict
+        metrics_json[f"{col_name}_mae"] = float(mae)
+        metrics_json[f"{col_name}_rmse"] = float(rmse)
+        metrics_json[f"{col_name}_r2"] = float(r2)
 
-    # Generate comparison plot (actual vs. predicted)
-    print("Generating prediction plot...")
-    plt.figure(figsize=(12,6))
-    # I plot only the first 200 hours for clarity
-    limit = 200
-    plt.plot(y_true_real[:limit], label='Valori reale (actual)', color='blue')
-    plt.plot(y_pred_real[:limit], label='Predicție AI (Predicted)', color='red', linestyle='--')
+        print(f"\n   PARAMETER: {col_name.upper()}")
+        print("-" * 48)
+        print(f"   RESULTS (Test Set 2024 - {col_name})")
+        print("-" * 48)
+        print(f"   MAE  (Eroare Medie Absoluta): {mae:.4f}")
+        print(f"   RMSE (Eroare Patratica Medie): {rmse:.4f}")
+        print(f"   R2 Score (Potrivire): {r2:.4f}")
+        print("-" * 48)
 
-    plt.title(f'Prognoza meteo: Real vs. AI (Primele {limit} ore din test)')
-    plt.xlabel('Timp (ore)')
-    plt.ylabel('Temperatura (°C)')
-    plt.legend()
-    plt.grid(True, alpha=0.3)
+        # Plotting
+        ax = axes[i]
+        ax.plot(true_vals[:limit], label='Real (Actual)', color='blue')
+        ax.plot(pred_vals[:limit], label='AI (Predicted)', color='red', linestyle='--')
 
+        if col_name == 'precipitation':
+            ax.axhline(0, color='black', linewidth=0.5, alpha=0.5)
+
+        ax.set_ylabel(f'{col_name}')
+        ax.set_title(f'Prognoza: {col_name.capitalize()}')
+        ax.legend(loc='upper right')
+        ax.grid(True, alpha=0.3)
+
+    # Finalize plot
+    axes[-1].set_xlabel('Timp (Ore)')
+    plt.tight_layout()
+
+    # Save plot
     plot_path = os.path.join(config.BASE_DIR, 'docs', 'prediction_plot.png')
     plt.savefig(plot_path)
-    print(f"Plor saved to {plot_path}")
+    print(f"\nCombined plot saved to: {plot_path}")
+
+    # Save JSON metrics
+    results_dir = os.path.join(config.BASE_DIR, 'results')
+    os.makedirs(results_dir, exist_ok=True)
+    with open(os.path.join(results_dir, 'test_metrics.json'), 'w') as f:
+        json.dump(metrics_json, f, indent=4)
+    print(f"Metrics saved to results/test_metrics.json")
 
 if __name__ == "__main__":
     evaluate_model()

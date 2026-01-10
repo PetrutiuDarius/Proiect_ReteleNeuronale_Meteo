@@ -10,7 +10,7 @@ RAW_DATA_PATH = os.path.join(DATA_DIR, 'raw', 'weather_history_raw.csv')
 GENERATED_DATA_PATH = os.path.join(DATA_DIR, 'generated', 'synthetic_extremes.csv')
 HYBRID_DATA_PATH = os.path.join(DATA_DIR, 'generated', 'hybrid_dataset.csv')
 PROCESSED_DATA_PATH = os.path.join(DATA_DIR, 'processed', 'final_normalized.csv')
-SCALER_PATH = os.path.join(DATA_DIR, 'scalers', 'minmax_scaler.pkl')
+SCALER_PATH = os.path.join(CONFIG_DIR, 'preprocessing_params.pkl')
 
 # --- LOCATION SETTINGS (Default: Bucharest) ---
 LOCATION = {
@@ -28,7 +28,7 @@ API_URL_TEMPLATE = (
     "https://archive-api.open-meteo.com/v1/archive?"
     "latitude={lat}&longitude={lon}&"
     "start_date={start}&end_date={end}&"
-    "hourly=temperature_2m,relative_humidity_2m,surface_pressure,wind_speed_10m&"
+    "hourly=temperature_2m,relative_humidity_2m,surface_pressure,wind_speed_10m,precipitation&"
     "timezone={timezone}&format=csv&wind_speed_unit=ms"
 )
 
@@ -72,8 +72,8 @@ PREDICT_HORIZON = 6
 
 # Features used for training (must match dataframe columns)
 # Note: 'is_simulated' is excluded from input features to force the model to learn patterns, not labels
-FEATURE_COLS = ['temperature', 'humidity', 'pressure', 'wind_speed']
-TARGET_COL = 'temperature' # We are predicting temperature
+FEATURE_COLS = ['temperature', 'humidity', 'pressure', 'wind_speed', 'precipitation']
+TARGET_COLS = ['temperature', 'humidity', 'pressure', 'wind_speed', 'precipitation']
 
 # Training settings
 BATCH_SIZE = 64        # Number of samples processed before updating weights

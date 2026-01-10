@@ -1,45 +1,122 @@
 # main.py
+"""
+SIA-Meteo: Master Orchestrator.
+
+This is the entry point for the entire project. It manages the lifecycle of the
+Data Science pipeline, from raw data ingestion to model deployment readiness.
+
+Features:
+- Smart Execution: Checks for existing artifacts (data, scalers, models) to avoid redundant computation.
+- Pipeline Integration: Connects Data Acquisition -> Processing -> Training -> Evaluation.
+- Command Line Interface (CLI): Allows forcing specific steps via flags (e.g., --force-train).
+
+Architecture Support:
+- Supports the 5-parameter architecture (Temp, Hum, Pres, Wind, Rain).
+- Ensures the Scaler is ready for the ESP32 Live Mode.
+"""
+
 import sys
-# Update imports based on new folder structure
+import os
+import argparse
+import traceback
+from src import config
+
 from src.data_acquisition.data_loader import download_data
 from src.data_acquisition.synthetic_generator import generate_synthetic_data
-from src.processing.split_data import split_and_normalize_dataset  # <-- Noul import
+from src.processing.split_data import split_and_normalize_dataset
+from src.neural_network.train_model import train_pipeline
+from src.neural_network.evaluate import evaluate_model
 
+def check_artifact(path: str, description: str) -> bool:
+    """Helper to check ia a file exists and log the status."""
+    if os.path.exists(path):
+        print(f"Found {description}: {path}")
+        return True
+    else:
+        print(f"{description} not found.")
+        return False
 
-def main():
-    print("\n" + "=" * 50)
-    print("   SIA-METEO: FULL PIPELINE START")
-    print("=" * 50 + "\n")
+def run_orchestrator(args):
+    print("\n" + "=" * 60)
+    print("   SIA-METEO: INTELLIGENT PIPELINE ORCHESTRATOR    ")
+    print("=" * 60 + "\n")
 
-    # Step 1: Real Data
-    print(">>> STEP 1: Real Data Acquisition")
-    download_data()
-    print("")
+    # Data acquisition (raw)
+    print(">>> Phase 1: Data acquisition")
+    if args.force_data or not check_artifact(config.RAW_DATA_PATH, "Raw Data"):
+        print("Dowloading historical data from Open-Meteo...")
+        download_data()
+    else:
+        print("Raw data already exists. Use --force-data to overwrite.")
+    print("-" * 30)
 
-    # Step 2: Synthetic Generation
-    print(">>> STEP 2: Synthetic Data Generation (Black Swan Events)")
-    generate_synthetic_data()
-    print("")
+    # Synthetic generation (Hybrid)
+    print(">>> Phase 2: Synthetic data augmentation")
+    if args.force_data or not check_artifact(config.HYBRID_DATA_PATH, "Hybrid Dataset"):
+        print("Generating Black Swan events (storms, heatwaves, frost)...")
+        generate_synthetic_data()
+    else:
+        print("Hybrid dataset already exists.")
+    print("-" * 30)
 
-    # Step 3: Processing & Splitting
-    print(">>> STEP 3: Splitting & Normalization")
-    split_and_normalize_dataset()
+    # Preprocessing & Scaling
+    # I check for the scaler because it is critical for the ESP32 Live Mode
+    print(">>> Phase 3: Preprocessing and normalization")
+    scaler_exists = check_artifact(config.SCALER_PATH, "MinMax Scaler")
+    train_exists = check_artifact(os.path.join(config.DATA_DIR, 'train', 'train.csv'), "Training Set")
 
-    print("\n" + "=" * 50)
-    print("   PIPELINE COMPLETED SUCCESSFULLY")
-    print("=" * 50 + "\n")
+    if args.force_data or not (scaler_exists and train_exists):
+        print("Splitting data and fitting the scaler...")
+        split_and_normalize_dataset()
+    else:
+        print("Data is already processed and normalized.")
+    print("-" * 30)
 
+    # Neural Network training
+    print(">>> Phase 4: Model training (LSTM)")
+    model_path = os.path.join(config.BASE_DIR, 'models', 'trained_model.keras')
+
+    if args.force_train or not check_artifact(model_path, "Trained Model"):
+        print(f"Training the LSTM model ({config.EPOCHS} epochs)...")
+        train_pipeline()
+    else:
+        print("Trained model found. Use --force-train to retrain.")
+    print("-" * 30)
+
+    # Evaluating & Reporting
+    print(">>> Phase 5: Evaluation and metrics")
+    metrics_path = os.path.join(config.BASE_DIR, 'results', 'test_metrics.json')
+
+    if args.skip_eval:
+        print("Evaluation skipped by user.")
+    else:
+        print("Running evaluation on test set (2024)...")
+        evaluate_model()
+    print("-" * 30)
+
+    print("\n" + "=" * 60)
+    print("   ✅ PIPELINE COMPLETE. SYSTEM READY FOR LIVE MODE.")
+    print("=" * 60 + "\n")
 
 if __name__ == "__main__":
+    # Command line interface definition
+    parser = argparse.ArgumentParser(description="SIA-Meteo Pipeline Controller")
+
+    parser.add_argument('--force-data', action='store_true',
+                        help="Force re-download and re-generation of all datasets.")
+    parser.add_argument('--force-train', action='store_true',
+                        help="Force re-training of the Neural Network model.")
+    parser.add_argument('--skip-eval', action='store_true',
+                        help="Skip the evaluation phase.")
+
+    args = parser.parse_args()
+
     try:
-        main()
+        run_orchestrator(args)
     except KeyboardInterrupt:
-        print("\n[WARNING] Process interrupted by user.")
+        print(f"\n\n[STOP] Process interupted by user.")
         sys.exit(0)
     except Exception as e:
-        print(f"\n[CRITICAL ERROR] An unexpected error occurred: {e}")
-        # Print full trace for debugging if needed
-        import traceback
-
+        print(f"\n\n[ERROR] Pipeline failed: {e}")
         traceback.print_exc()
         sys.exit(1)

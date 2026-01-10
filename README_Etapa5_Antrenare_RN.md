@@ -26,12 +26,12 @@ Această etapă vizează antrenarea efectivă a modelului neuronal pentru progno
     - **Train:** 2020-2023 (Real) + Toate Datele Simulate (Extreme).
     - **Validation:** 2024 (Luni Impare).
     - **Test:** 2024 (Luni Pare).
-- **Normalizare:** MinMaxScaler fitat doar pe Train, aplicat pe Val/Test.
+- **Normalizare:** MinMaxScaler format doar pe Train, aplicat pe Val/Test.
 
 **Tehnica „Sliding Window” (Fereastră glisantă):**
 Rețeaua nu primește datele rând cu rând. Am implementat un generator (`src/neural_network/data_generator.py`) care transformă datele în secvențe 3D:
 * **Input (X):** Fereastră de **24 de ore** din trecut (istoricul recent).
-* **Output (y):** Temperatura peste **6 ore** în viitor (prognoza).
+* **Output (y):** Datele peste **6 ore** în viitor (prognoza).
 
 ---
 
@@ -65,16 +65,16 @@ Deoarece proiectul nu este de clasificare, metricile "Accuracy" și "Confusion M
 
 ### Rezultate obținute (set de test 2024):
 
-| Metrica                           | Valoare obținută | Interpretare |
-|:----------------------------------|:-----------------| :--- |
+| Metrica                           | Valoare obținută | Interpretare                                                                                                          |
+|:----------------------------------|:-----------------|:----------------------------------------------------------------------------------------------------------------------|
 | **MAE (eroare medie absolută)**   | **1.4634 °C**    | În medie, prognoza sistemului greșește cu mai puțin de 1.5 grade. Este un rezultat excelent pentru prognoze pe 6 ore. |
-| **RMSE (eroare pătratică medie)** | **2.0461 °C**    | Faptul că RMSE este apropiat de MAE indică faptul că nu avem erori catastrofale (predictii aberante) frecvente. |
-| **R2 Score**                      | **0.9543**       | Modelul explică **95.4%** din variația temperaturii. O valoare foarte apropiată de 1 (ideal). |
+| **RMSE (eroare pătratică medie)** | **2.0461 °C**    | Faptul că RMSE este apropiat de MAE indică faptul că nu avem erori catastrofale (predictii aberante) frecvente.       |
+| **R2 Score**                      | **0.9543**       | Modelul explică **95.4%** din variația temperaturii. O valoare foarte apropiată de 1 (ideal).                         |
 
 *(Rezultatele brute se regăsesc în `results/test_metrics.json`)*.
 
 ### Graficul convergenței (Loss Curve)
-Graficul de mai jos arată evoluția erorii în timpul antrenării. Se observă că linia portocalie (validare) scade constant și rămâne sub cea albastră , ceea ce demonstrează o capacitate de generalizare foarte bună (fără Overfitting).
+Graficul de mai jos arată evoluția erorii în timpul antrenării. Se observă că linia portocalie (validare) scade constant și rămâne sub cea albastră, ceea ce demonstrează o capacitate de generalizare foarte bună (fără Overfitting).
 
 ![Loss Curve](docs/loss_curve.png)
 
@@ -123,7 +123,9 @@ C:\Users\dariu\Desktop\Retele Neuronale - RN\Proiect\Proiect_ReteleNeuronale_Met
 │   │   ├── model_architecture.py      # Definiția LSTM
 │   │   └── train_model.py             # Script Antrenare
 │   └── processing/                    # Scripturi split & normalizare
+├── .gitignore
 ├── main.py                            # Orchestrator
 ├── README.md                          # General
+├── README_Etapa3_Analiza_Date.md      # Etapa de preluare de date
 ├── README_Etapa4_Arhitectura_SIA.md   # Etapa anterioară
 └── README_Etapa5_Antrenare_RN.md      # Acest fișier

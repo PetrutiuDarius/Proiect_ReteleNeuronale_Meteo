@@ -1,110 +1,127 @@
 # src/processing/split_data.py
+"""
+Data splitting & Normalization module.
+
+This module implements the strategy for partitioning the hybrid dataset into
+Training, Validation, and Testing sets while strictly adhering to time-series
+validation principles (avoiding look-ahead bias).
+
+Key responsibilities:
+1. Chronological splitting: Ensures future data is not used to train past predictions.
+2. Synthetic integration: Injects 'Black Swan' events only into the Training set.
+3. Feature scaling: Fits normalization parameters strictly on Training data to prevent Data Leakage.
+"""
+
 import pandas as pd
-import numpy as np
 import os
 import sys
-import joblib  # For saving the Scaler
+import joblib
 from sklearn.preprocessing import MinMaxScaler
 from src import config
 
-
 def split_and_normalize_dataset() -> None:
     """
-    Core processing pipeline:
-    1. Loads the Hybrid Dataset (Real + Synthetic).
-    2. Splits Real data into Train (2020-2023) and Val/Test (2024).
-    3. Adds ALL Synthetic data to the Training set (to learn extremes).
-    4. Normalizes data using a Scaler fitted ONLY on Training data (to prevent data leakage).
-    5. Saves the final artifacts.
-    """
-    print("[INFO] Starting Dataset Splitting & Normalization...")
+    Orchestrates the splitting and normalization pipeline.
 
-    # 1. Load Hybrid Data
+    Architecture:
+    - Train Set: 2020-2023 (Real) + All Synthetic Data (Extreme Events).
+    - Validation Set: 2024 (Odd Months).
+    - Test Set: 2024 (Even Months).
+    """
+    print("Starting data splitting & normalization pipeline...")
+
+    # Load the hybrid dataset
     if not os.path.exists(config.HYBRID_DATA_PATH):
-        print(f"[ERROR] Hybrid dataset not found at: {config.HYBRID_DATA_PATH}")
-        print("[HINT] Run 'main.py' step 1 & 2 first.")
+        print(f"Hybrid dataset missing at: {config.HYBRID_DATA_PATH}")
+        print("Execute 'main.py' to generate the dataset first.")
+        sys.exit(1)
+    try:
+        df_full = pd.read_csv(config.HYBRID_DATA_PATH)
+    except Exception as e:
+        print(f"Failed to read CSV: {e}")
         sys.exit(1)
 
-    df_full = pd.read_csv(config.HYBRID_DATA_PATH)
-
-    # Ensure timestamp is datetime (errors='coerce' handles distinct synthetic timestamps if any)
+    # Convert timestamp to datetime objects for temporal filtering
     df_full['timestamp'] = pd.to_datetime(df_full['timestamp'], errors='coerce')
 
-    # Set index but keep it as column too for filtering
+    # I set timestamp as an index for easy slicing but keep it as a column for debugging
     df_full.set_index('timestamp', inplace=True, drop=False)
 
-    # 2. Separate Real vs Synthetic
-    # We rely on the flag we created in synthetic_generator.py
+    # Validation: Ensure all required parameters exist
+    missing_cols = [col for col in config.FEATURE_COLS if col not in df_full.columns]
+    if missing_cols:
+        print(f"Dataset is missing features required by config: {missing_cols}")
+        sys.exit(1)
+
+    # Segregate real vs. Synthetic data
+    # 'is_simulated' flag allows us to treat real history and synthetic extremes differently
     df_real = df_full[df_full['is_simulated'] == 0].copy()
     df_synthetic = df_full[df_full['is_simulated'] == 1].copy()
 
-    print(f"[DEBUG] Real samples: {len(df_real)} | Synthetic samples: {len(df_synthetic)}")
+    print(f"Real samples: {len(df_real)} | Synthetic samples: {len(df_synthetic)}")
 
-    # 3. Split Real Data Logic
-    # Train: < 2024
-    # Val/Test: == 2024 (Alternating months)
+    # Chronological splitting strategy
+    # I split 2024 into Val/Test to simulate "current year" performance.
+    # Alternating months ensure we cover all seasons in both Val and Test.
 
     train_real = df_real[df_real.index.year < 2024].copy()
     df_2024 = df_real[df_real.index.year == 2024].copy()
 
-    val_mask = (df_2024.index.month % 2 != 0)  # Odd months
-    test_mask = (df_2024.index.month % 2 == 0)  # Even months
+    val_mask = (df_2024.index.month % 2 != 0)  # Odd months (Jan, Mar, ...)
+    test_mask = (df_2024.index.month % 2 == 0)  # Even months (Feb, Apr, ...)
 
     val_real = df_2024[val_mask].copy()
     test_real = df_2024[test_mask].copy()
 
-    # 4. Construct Final Sets
-    # Training = Real History (2020-2023) + All Synthetic Extremes
-    # We concatenate them. The Neural Network Data Generator (later) will handle the jump
-    # between them so we don't feed a window spanning across real/synthetic boundary.
+    # Construct the final datasets
+    # Synthetic data is added ONLY to training.
+    # I do not want to validate/test on fake data; I want to benchmark against reality.
     train_final = pd.concat([train_real, df_synthetic])
-
-    # Validation & Test remain purely Real Data to benchmark reality
     val_final = val_real
     test_final = test_real
 
-    # 5. Normalization (CRITICAL STEP)
-    # We must fit the scaler ONLY on the Training set.
-    # If we fit on Test, the model "peeks" into the future (Data Leakage).
+    # 6. Normalization (MinMax Scaling)
+    # Neural Networks converge faster with features in range [0, 1].
+    # I fit the scaler ONLY on train_final to avoid data leakage.
 
-    print("[INFO] Fitting Scaler on Training Data (Real + Synthetic)...")
+    print("Fitting Scaler on training data (real + synthetic)...")
     scaler = MinMaxScaler(feature_range=(0, 1))
+    feature_cols = config.FEATURE_COLS
 
-    # Columns to scale (exclude timestamp and flag)
-    feature_cols = ['temperature', 'humidity', 'pressure', 'wind_speed']
-
-    # Fit
+    # Fit on training data
     scaler.fit(train_final[feature_cols])
 
-    # Transform all sets
+    # Transform all partitions
+    # Values in test might go slightly outside [0,1] if they exceed training extremes.
+    # This is expected behavior in production (the real world is unpredictable).
     train_final[feature_cols] = scaler.transform(train_final[feature_cols])
     val_final[feature_cols] = scaler.transform(val_final[feature_cols])
     test_final[feature_cols] = scaler.transform(test_final[feature_cols])
 
-    # 6. Save Artifacts
-    os.makedirs(os.path.join(config.DATA_DIR, 'train'), exist_ok=True)
-    os.makedirs(os.path.join(config.DATA_DIR, 'validation'), exist_ok=True)
-    os.makedirs(os.path.join(config.DATA_DIR, 'test'), exist_ok=True)
-    os.makedirs(os.path.join(config.DATA_DIR, 'scalers'), exist_ok=True)
+    # Save artifacts
+    # Ensuring directory structures exist
+    for path in [os.path.join(config.DATA_DIR, sub) for sub in ['train', 'validation', 'test']]:
+        os.makedirs(path, exist_ok=True)
 
+    # Save processed CSVs
     train_final.to_csv(os.path.join(config.DATA_DIR, 'train', 'train.csv'), index=False)
     val_final.to_csv(os.path.join(config.DATA_DIR, 'validation', 'validation.csv'), index=False)
     test_final.to_csv(os.path.join(config.DATA_DIR, 'test', 'test.csv'), index=False)
 
-    # Save the scaler object itself to use it later for inverse_transform (denormalization)
-    scaler_path = os.path.join(config.DATA_DIR, 'scalers', 'minmax_scaler.pkl')
-    joblib.dump(scaler, scaler_path)
+    # Save the scaler model
+    os.makedirs(os.path.dirname(config.SCALER_PATH), exist_ok=True)
+    joblib.dump(scaler, config.SCALER_PATH)
 
-    print("\n[SUCCESS] Data Splitting & Normalization Complete.")
+    # Final report
+    print("\n[SUCCESS] Data splitting & normalization complete.")
     print("-" * 60)
     print(f"{'Set':<15} | {'Composition':<30} | {'Count':<10}")
     print("-" * 60)
     print(f"{'Train':<15} | {'Real(20-23) + Synthetic':<30} | {len(train_final):<10}")
     print(f"{'Validation':<15} | {'Real(2024 Odd Months)':<30} | {len(val_final):<10}")
     print(f"{'Test':<15} | {'Real(2024 Even Months)':<30} | {len(test_final):<10}")
-    print(f"{'Scaler':<15} | {'Saved for later use':<30} | {scaler_path}")
+    print(f"{'Scaler':<15} | {'Saved to':<30} | {config.SCALER_PATH}")
     print("-" * 60)
-
 
 if __name__ == "__main__":
     split_and_normalize_dataset()

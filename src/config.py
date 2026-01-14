@@ -1,18 +1,39 @@
 # src/config.py
+"""
+Global Configuration Module.
+
+This file serves as the Single Source of Truth (SSOT) for the entire application.
+It defines directory paths, API endpoints, physical constants, and Neural Network
+hyperparameters.
+
+Modifying parameters here automatically propagates changes to Data Acquisition,
+Processing, Training, and Inference modules.
+"""
+
 import os
 
-# --- PATHS ---
+# =============================================================================
+#  PROJECT STRUCTURE & PATHS
+# =============================================================================
+# Resolve the project root dynamically to ensure portability
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 DATA_DIR = os.path.join(BASE_DIR, 'data')
 CONFIG_DIR = os.path.join(BASE_DIR, 'config')
 
+# File Artifacts
 RAW_DATA_PATH = os.path.join(DATA_DIR, 'raw', 'weather_history_raw.csv')
 GENERATED_DATA_PATH = os.path.join(DATA_DIR, 'generated', 'synthetic_extremes.csv')
 HYBRID_DATA_PATH = os.path.join(DATA_DIR, 'generated', 'hybrid_dataset.csv')
-PROCESSED_DATA_PATH = os.path.join(DATA_DIR, 'processed', 'final_normalized.csv')
-SCALER_PATH = os.path.join(CONFIG_DIR, 'preprocessing_params.pkl')
+# Note: Processed data is split into train/val/test CSVs in their respective folders
 
-# --- LOCATION SETTINGS (Default: Bucharest) ---
+# Model Artifacts
+SCALER_PATH = os.path.join(CONFIG_DIR, 'preprocessing_params.pkl')
+MODEL_PATH = os.path.join(BASE_DIR, 'models', 'trained_model.keras')
+
+# =============================================================================
+#  LOCATION & API SETTINGS
+# =============================================================================
 LOCATION = {
     "name": "Bucharest",
     "lat": 44.4323,
@@ -20,10 +41,12 @@ LOCATION = {
     "timezone": "Europe/Bucharest"
 }
 
-# --- API SETTINGS ---
 # Fetching 5 full years (2020-2024)
 API_START_DATE = "2020-01-01"
 API_END_DATE = "2024-12-31"
+
+# Open-Meteo API Template
+# I explicitly request 5 parameters: Temp, Humidity, Pressure, Wind, Precipitation
 API_URL_TEMPLATE = (
     "https://archive-api.open-meteo.com/v1/archive?"
     "latitude={lat}&longitude={lon}&"
@@ -32,30 +55,29 @@ API_URL_TEMPLATE = (
     "timezone={timezone}&format=csv&wind_speed_unit=ms"
 )
 
-# --- SYNTHETIC GENERATION SETTINGS ---
-# Definitions for "Black Swan" events specific to the location's climate
+# =============================================================================
+#  SYNTHETIC DATA GENERATION (Black Swan Events)
+# =============================================================================
+# Constraints used to generate physically plausible extreme weather events
 EXTREME_SCENARIOS = {
-    # 1. Heatwave: Temp > historical max (e.g., >42°C in Bucharest)
     "heatwave": {
         "temp_min": 40.0,
         "temp_max": 44.0,
-        "duration_hours": (48, 120),  # 2 to 5 days
-        "occurrence_prob": 0.05       # Probability of occurring in summer
+        "duration_hours": (48, 120),
+        "occurrence_prob": 0.05
     },
-    # 2. Severe Storm: High wind, sudden pressure drop
     "storm": {
-        "wind_speed_min": 20.0,       # m/s (approx 72 km/h)
-        "wind_speed_max": 30.0,       # m/s (approx 108 km/h)
-        "pressure_drop": 15.0,        # hPa drop
+        "wind_speed_min": 20.0,
+        "wind_speed_max": 30.0,
+        "pressure_drop": 15.0,
         "duration_hours": (2, 6),
         "occurrence_prob": 0.03
     },
-    # 3. Late Frost: Negative temps in April/May
     "late_frost": {
         "temp_min": -3.0,
         "temp_max": 0.0,
-        "months": [4, 5],             # April, May
-        "duration_hours": (4, 10),    # Overnight
+        "months": [4, 5],
+        "duration_hours": (4, 10),
         "occurrence_prob": 0.10
     }
 }
@@ -63,20 +85,50 @@ EXTREME_SCENARIOS = {
 # Target size for the synthetic dataset (approx 25k hours)
 SYNTHETIC_SAMPLES_TARGET = 25000
 
-# --- NEURAL NETWORK HYPERPARAMETERS ---
-# How many past hours the model sees to make a prediction
+# =============================================================================
+#  NEURAL NETWORK ARCHITECTURE
+# =============================================================================
+# Sliding Window: 24h allows capturing the full diurnal cycle (Day/Night patterns)
 SEQ_LENGTH = 24
 
-# How many hours into the future we want to predict
-PREDICT_HORIZON = 6
+# Prediction Horizon: I predict the NEXT hour (t+1).
+# Multistep forecasting (e.g., 24h ahead) is handled via autoregression in the UI.
+PREDICT_HORIZON = 1
 
-# Features used for training (must match dataframe columns)
-# Note: 'is_simulated' is excluded from input features to force the model to learn patterns, not labels
-FEATURE_COLS = ['temperature', 'humidity', 'pressure', 'wind_speed', 'precipitation']
-TARGET_COLS = ['temperature', 'humidity', 'pressure', 'wind_speed', 'precipitation']
+# Input Features (9 Total)
+# Includes 5 Physical parameters + 4 Cyclical Time Embeddings
+FEATURE_COLS = [
+    'temperature',
+    'humidity',
+    'pressure',
+    'wind_speed',
+    'precipitation',
+    'day_sin', 'day_cos',   # Time of Day (Circadian rhythm)
+    'year_sin', 'year_cos'  # Seasonality (Annual rhythm)
+]
 
-# Training settings
+# Output Targets (5 Total)
+# I only predict the physical state of the atmosphere
+TARGET_COLS = [
+    'temperature',
+    'humidity',
+    'pressure',
+    'wind_speed',
+    'precipitation'
+]
+
+# =============================================================================
+#  TRAINING HYPERPARAMETERS
+# =============================================================================
 BATCH_SIZE = 64        # Number of samples processed before updating weights
 EPOCHS = 50            # NUmber of complete passes through the dataset
 LEARNING_RATE = 0.001  # Step size for the optimizer
-PATIENCE = 10          # Early stopping patience (stop if no improvement after 10 epochs)
+PATIENCE = 5           # Early stopping patience (stop if no improvement after 5 epochs)
+
+
+# =============================================================================
+#  LOGIC CONSTANTS
+# =============================================================================
+# Threshold to distinguish Rain vs Snow in the UI/Logic layer
+# If Precip > 0 and Temp <= SNOW_TEMP_THRESHOLD, we classify as SNOW.
+SNOW_TEMP_THRESHOLD = 0.5

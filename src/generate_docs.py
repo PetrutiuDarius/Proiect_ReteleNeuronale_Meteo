@@ -48,34 +48,34 @@ def generate_statistics_table(df: pd.DataFrame) -> None:
 
     # Real data analysis (grouped by year)
     df_real = df[df['is_simulated'] == 0]
-
-    # Iterate through unique years in the real dataset
     unique_years = sorted(df_real['timestamp'].dt.year.dropna().unique())
+
     for year in unique_years:
         d_year = df_real[df_real['timestamp'].dt.year == year]
 
-        max_temp = d_year['temperature'].max()
-        max_wind = d_year['wind_speed'].max()
-        min_pres = d_year['pressure'].min()
+        # Check for column existence to ensure backward compatibility
         max_rain = d_year['precipitation'].max() if 'precipitation' in d_year.columns else 0.0
 
-        print(
-            f"| {int(year)} | Real      | {max_temp:.1f}          | {max_wind:.1f}           | {min_pres:.1f}              | {max_rain:.1f}          |")
+        print(f"| {int(year)} | Real      | "
+              f"{d_year['temperature'].max():.1f}          | "
+              f"{d_year['wind_speed'].max():.1f}           | "
+              f"{d_year['pressure'].min():.1f}              | "
+              f"{max_rain:.1f}          |")
 
     # Synthetic sata analysis (aggregated)
     df_sim = df[df['is_simulated'] == 1]
 
     if not df_sim.empty:
-        sim_max_temp = df_sim['temperature'].max()
-        sim_max_wind = df_sim['wind_speed'].max()
-        sim_min_pres = df_sim['pressure'].min()
-        sim_max_rain = df_sim['precipitation'].max() if 'precipitation' in df_sim.columns else 0.0
+        max_rain = df_sim['precipitation'].max() if 'precipitation' in df_sim.columns else 0.0
 
-        # Using the bold Markdown (**) to highlight the extremes provided by simulation
-        print(f"| Sim   | **Synthetic** | **{sim_max_temp:.1f}** | **{sim_max_wind:.1f}** | **{sim_min_pres:.1f}** | **{sim_max_rain:.1f}** |")
+        # Highlighting synthetic extremes using Bold Markdown
+        print(f"| Sim   | **Synthetic** | "
+              f"**{df_sim['temperature'].max():.1f}** | "
+              f"**{df_sim['wind_speed'].max():.1f}** | "
+              f"**{df_sim['pressure'].min():.1f}** | "
+              f"**{max_rain:.1f}** |")
 
     print("=" * 80 + "\n")
-
 
 def plot_temperature_distribution(df: pd.DataFrame) -> None:
     """
@@ -84,28 +84,21 @@ def plot_temperature_distribution(df: pd.DataFrame) -> None:
     """
     print("Generating distribution comparison plot...")
 
-    df_real = df[df['is_simulated'] == 0]
-    df_sim = df[df['is_simulated'] == 1]
-
     plt.figure(figsize=(10, 6))
 
     # Plot real data distribution
     sns.kdeplot(
-        df_real['temperature'],
-        label='Real data (Historical)',
-        fill=True,
-        color='blue',
-        alpha=0.3
+        df[df['is_simulated'] == 0]['temperature'],
+        label='Real Data (Historical)',
+        fill=True, color='blue', alpha=0.3
     )
 
     # Plot synthetic data distribution
-    if not df_sim.empty:
+    if not df[df['is_simulated'] == 1].empty:
         sns.kdeplot(
-            df_sim['temperature'],
-            label='Synthetic data (Extremes)',
-            fill=True,
-            color='red',
-            alpha=0.3
+            df[df['is_simulated'] == 1]['temperature'],
+            label='Synthetic Data (Extremes)',
+            fill=True, color='red', alpha=0.3
         )
 
     plt.title('Temperature distribution: Historical vs. Synthetic scenarios')

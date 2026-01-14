@@ -27,16 +27,32 @@ def split_and_normalize_dataset() -> None:
     - Train Set: 2020-2023 (Real) + All Synthetic Data (Extreme Events).
     - Validation Set: 2024 (Odd Months).
     - Test Set: 2024 (Even Months).
+
+    The scaler handles all 9 inputs defined in config.FEATURE_COLS,
+    ensuring Time Embeddings (Sin/Cos) are scaled alongside physical parameters.
     """
     print("Starting data splitting & normalization pipeline...")
 
     # Load the hybrid dataset
     if not os.path.exists(config.HYBRID_DATA_PATH):
         print(f"Hybrid dataset missing at: {config.HYBRID_DATA_PATH}")
-        print("Execute 'main.py' to generate the dataset first.")
+        print("Execute 'main.py' (Phase 1 & 2) first.")
         sys.exit(1)
+
     try:
         df_full = pd.read_csv(config.HYBRID_DATA_PATH)
+
+        # Handle cases where the index was saved without a name (resulting in 'Unnamed: 0')
+        if 'timestamp' not in df_full.columns:
+            if 'Unnamed: 0' in df_full.columns:
+                print("[WARN] detected unnamed index column. Renaming to 'timestamp'.")
+                df_full.rename(columns={'Unnamed: 0': 'timestamp'}, inplace=True)
+            else:
+                # If the timestamp is missing and no unnamed column, it might be the index already
+                # but read_csv usually creates a RangeIndex if not specified.
+                print(f"[CRITICAL] Column 'timestamp' not found. Columns are: {df_full.columns.tolist()}")
+                sys.exit(1)
+
     except Exception as e:
         print(f"Failed to read CSV: {e}")
         sys.exit(1)

@@ -1,4 +1,4 @@
-# src/neural_network/train_model.py
+# src/neural_network/train.py
 """
 Model Training Pipeline.
 
@@ -19,7 +19,7 @@ warnings.filterwarnings("ignore")
 
 from src import config
 from src.neural_network.data_generator import TimeSeriesGenerator
-from src.neural_network.model_architecture import build_lstm_model
+from src.neural_network.model import build_lstm_model
 
 def train_pipeline():
     print("==========================================")
@@ -105,7 +105,7 @@ def train_pipeline():
     plt.xlabel('Epoch')
     plt.ylabel('Loss (mean squared error)')
     plt.legend()
-    plt.grid(True)
+    plt.grid(True, alpha=0.3)
 
     loss_img_path = os.path.join(config.BASE_DIR, 'docs', 'loss_curve.png')
     plt.savefig(loss_img_path)

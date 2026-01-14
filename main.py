@@ -11,7 +11,7 @@ Features:
 - Command Line Interface (CLI): Allows forcing specific steps via flags (e.g., --force-train).
 
 Architecture Support:
-- Supports the 5-parameter architecture (Temp, Hum, Pres, Wind, Rain).
+- Supports the 9/5-parameter architecture (Temp, Hum, Pres, Wind, Rain, Timestamps).
 - Ensures the Scaler is ready for the ESP32 Live Mode.
 """
 
@@ -24,7 +24,7 @@ from src import config
 from src.data_acquisition.data_loader import download_data
 from src.data_acquisition.synthetic_generator import generate_synthetic_data
 from src.processing.split_data import split_and_normalize_dataset
-from src.neural_network.train_model import train_pipeline
+from src.neural_network.train import train_pipeline
 from src.neural_network.evaluate import evaluate_model
 
 def check_artifact(path: str, description: str) -> bool:

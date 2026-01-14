@@ -68,11 +68,12 @@ class TimeSeriesGenerator:
 if __name__ == "__main__":
     # Unit test
     print("Returning data generator test...")
-    cols = ['temperature', 'humidity', 'pressure', 'wind_speed', 'precipitation']
-    mock_data = pd.DataFrame(np.random.rand(100, 5), columns=cols)
+    cols_in = ['T', 'H', 'P', 'W', 'R', 'D_sin', 'D_cos', 'Y_sin', 'Y_cos']
+    cols_out = ['T', 'H', 'P', 'W', 'R']
+    mock_data = pd.DataFrame(np.random.rand(100, 9), columns=cols)
 
-    gen = TimeSeriesGenerator(input_width=24, label_width=6, feature_cols=cols, target_cols=cols)
-    X_test, y_test = gen.create_sequences(mock_data)
+    gen = TimeSeriesGenerator(24, 1, cols_in, cols_out)
+    X, y = gen.create_sequences(mock_data)
 
-    print(f"Input shape (Samples, TimeSteps, Feature): {X_test.shape}")
-    print(f"Target shape (Samples, OutputUnits): {y_test.shape}")
+    print(f"Input Shape: {X.shape} (Expected: (75, 24, 9))")
+    print(f"Target Shape: {y.shape} (Expected: (75, 5))")

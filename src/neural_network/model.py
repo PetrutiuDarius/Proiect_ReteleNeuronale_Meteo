@@ -1,4 +1,4 @@
-# src/neural_network/model_architecture.py
+# src/neural_network/model.py
 """
 Neural Network architecture definition.
 
@@ -24,7 +24,7 @@ def build_lstm_model(input_shape: tuple, learning_rate: float = 0.001, output_un
     6. Dense (output_units): Final regression vector (Multi-Target).
 
     Args:
-        input_shape (tuple): Shape of input data (e.g., (24, 5)).
+        input_shape (tuple): Shape of input sequences (TimeSteps, Features).
         learning_rate (float): Optimizer step size.
         output_units (int): Number of predicted parameters (5).
 

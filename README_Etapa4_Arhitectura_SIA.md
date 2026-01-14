@@ -21,11 +21,11 @@ Sistemul este compus din 3 module interconectate:
 
 ## 1. Tabelul nevoie reală → Soluție SIA → Modul software
 
-| **Nevoie reală concretă** | **Cum o rezolvă SIA-ul vostru** | **Modul software responsabil** |
-|---------------------------|--------------------------------|--------------------------------|
-| **Protecția parcurilor fotovoltaice împotriva fenomenelor extreme** | Predicția rafalelor de vânt > 20 m/s și grindină → Alertă automată pentru poziționare "Safe Mode" în < 5 secunde. | `src/neural_network` (Predicție) + `src/app` (Alerting Logic) |
-| **Optimizarea producției de energie regenerabilă** | Prognoza iradianței și temperaturii pe următoarele 24h cu eroare RMSE < 10% pentru planificarea livrării în rețea. | `src/neural_network` (Model Forecasting) |
-| **Agricultură de precizie (Protecție anti-îngheț)** | Detectarea riscului de îngheț (Temp < 0°C) cu 6 ore în avans → Alertă fermieri pentru activare sisteme încălzire. | `src/data_acquisition` (Senzori virtuali) + `src/app` (Dashboard) |
+| **Nevoie reală concretă**                                           | **Cum o rezolvă SIA-ul vostru**                                                                                    | **Modul software responsabil**                                    |
+|---------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------|
+| **Protecția parcurilor fotovoltaice împotriva fenomenelor extreme** | Predicția rafalelor de vânt > 20 m/s și grindină → Alertă automată pentru poziționare "Safe Mode" în < 5 secunde.  | `src/neural_network` (Predicție) + `src/app` (Alerting Logic)     |
+| **Optimizarea producției de energie regenerabilă**                  | Prognoza iradianței și temperaturii pe următoarele 24h cu eroare RMSE < 10% pentru planificarea livrării în rețea. | `src/neural_network` (Model Forecasting)                          |
+| **Agricultură de precizie (Protecție anti-îngheț)**                 | Detectarea riscului de îngheț (Temp < 0°C) cu 6 ore în avans → Alertă fermieri pentru activare sisteme încălzire.  | `src/data_acquisition` (Senzori virtuali) + `src/app` (Dashboard) |
 
 ---
 

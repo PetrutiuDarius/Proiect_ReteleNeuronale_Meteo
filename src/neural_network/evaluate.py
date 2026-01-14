@@ -59,22 +59,20 @@ def evaluate_model():
     print("==========================================")
 
     # Load paths
-    model_path = os.path.join(config.BASE_DIR, 'models', 'trained_model.keras')
     test_data_path = os.path.join(config.DATA_DIR, 'test', 'test.csv')
-    scaler_path = config.SCALER_PATH
 
     # Checks
-    if not os.path.exists(model_path):
-        print(f"Model not found at {model_path}. Run training first.")
+    if not os.path.exists(config.MODEL_PATH):
+        print(f"Model not found at {config.MODEL_PATH}. Run training first.")
         return
-    if not os.path.exists(scaler_path):
-        print(f"Scaler not found at {scaler_path}. Run preprocessing first.")
+    if not os.path.exists(config.SCALER_PATH):
+        print(f"Scaler not found at {config.SCALER_PATH}. Run preprocessing first.")
         return
 
     # Load artifacts
     print("Loading model and scaler...")
-    model = load_model(model_path)
-    scaler = joblib.load(scaler_path)
+    model = load_model(config.MODEL_PATH)
+    scaler = joblib.load(config.SCALER_PATH)
 
     print("Loading test data...")
     df_test = pd.read_csv(test_data_path)
@@ -95,10 +93,32 @@ def evaluate_model():
     print("Running prediction on test set...")
     y_pred_scaled = model.predict(X_test, verbose=0)
 
-    # Denormalize data (inverse transform)
+    # Denormalization & Post-Processing
     print("Denormalize data...")
-    y_pred_real = scaler.inverse_transform(y_pred_scaled)
-    y_true_real = scaler.inverse_transform(y_test)
+
+    # Advanced Denormalization Logic for Asymmetric I/O
+    # I create a dummy matrix matching the scaler's expected shape (9 cols)
+    # and fill the target columns, then extract them back.
+
+    def denormalize_targets(pred_array):
+        # Create placeholder with correct shape (N, 9)
+        dummy = np.zeros((pred_array.shape[0], len(config.FEATURE_COLS)))
+        # Fill the physical columns (first 5)
+        physical_idx = len(config.TARGET_COLS)
+        dummy[:, :physical_idx] = pred_array
+        # Inverse transform
+        inversed = scaler.inverse_transform(dummy)
+        # Return only physical columns
+        return inversed[:, :physical_idx]
+
+    # Check if Scaler expects 9 cols but we have 5
+    if scaler.n_features_in_ != y_pred_scaled.shape[1]:
+        y_pred_real = denormalize_targets(y_pred_scaled)
+        y_true_real = denormalize_targets(y_test)
+    else:
+        # Fallback if shapes match
+        y_pred_real = scaler.inverse_transform(y_pred_scaled)
+        y_true_real = scaler.inverse_transform(y_test)
 
     # Apply physics constraints
     print("Applying physics-informed post-processing...")

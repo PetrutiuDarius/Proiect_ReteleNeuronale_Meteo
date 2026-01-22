@@ -23,7 +23,7 @@ from src import config
 
 from src.data_acquisition.data_loader import download_data
 from src.data_acquisition.synthetic_generator import generate_synthetic_data
-from src.processing.split_data import split_and_normalize_dataset
+from src.preprocessing.split_data import split_and_normalize_dataset
 from src.neural_network.train import train_pipeline
 from src.neural_network.evaluate import evaluate_model
 

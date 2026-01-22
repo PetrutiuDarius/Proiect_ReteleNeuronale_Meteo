@@ -1,4 +1,4 @@
-# src/processing/split_data.py
+# src/preprocessing/split_data.py
 """
 Data splitting & Normalization module.
 

@@ -28,7 +28,7 @@ from src.neural_network.data_generator import TimeSeriesGenerator
 
 def apply_physics_constraints(data: np.ndarray, feature_names: list) -> np.ndarray:
     """
-    Post-processing filter to enforce physical laws on predictions.
+    Post-preprocessing filter to enforce physical laws on predictions.
 
     Rules applied:
     1. Non-Negativity: Variables like Rain, Humidity, Wind cannot be negative.
@@ -121,7 +121,7 @@ def evaluate_model():
         y_true_real = scaler.inverse_transform(y_test)
 
     # Apply physics constraints
-    print("Applying physics-informed post-processing...")
+    print("Applying physics-informed post-preprocessing...")
     y_pred_real = apply_physics_constraints(y_pred_real, config.TARGET_COLS)
 
     # Metrics and plotting loop

@@ -18,8 +18,8 @@ Acest document descrie activitățile realizate în **Etapa 3**, în care s-a an
 
 ```text
 Proiect_ReteleNeuronale_Meteo/
-├── README.md
-├── README_Etapa3_Analiza_Date.md         # Acest fișier
+├── config/
+│   └── preprocessing_params.pkl   # Fișierul de denormalizare a datelor
 ├── data/  
 │   ├── raw/                       # Date brute
 │   │   └── weather_history_raw.csv
@@ -31,20 +31,28 @@ Proiect_ReteleNeuronale_Meteo/
 │   │   └── train.csv 
 │   └── validation/                # Set de validare (2024 Luni Impare)
 │       └── validation.csv 
+├── docs/
+│   ├── eda_correlation.png        # Matricea de corelație
+│   ├── eda_distribution.png       # Distribuția datelor
+│   └── eda_outliers.png           # Identificarea outlier-ilor
 ├── src/
 │   ├── data_acquisition/          # Script descărcare
 │   │   ├── __init__.py            # Inițializarea pachetului
 │   │   └── data_loader.py         # Descarcă datele istorice brute de la API-ul Open-Meteo
-│   ├── preprocessing/             # Scripturi de split și normalizare
-│   │   ├── __init__.py            # Inițializarea pachetului
-│   │   └── split_data.py          # Împarte datele (Train/Val/Test) și aplică normalizarea MinMax
 │   ├── docs_generators/           # Generatoare de documentații
 │   │   ├── __init__.py            # Inițializarea pachetului
 │   │   └── generate_eda.py        # Generează statistici pe baza setului brut de date
-│   └── neural_network/            # Scripturi pentru modelul neuronal (etapa următoare)
-├── config/
-│   └── preprocessing_params.pkl   # Fișierul de denormalizare a datelor
-├── requirements.txt               # Dependențe Python
+│   ├── neural_network/            # Scripturi pentru modelul neuronal (următoarea etapă)
+│   ├── preprocessing/             # Scripturi de split și normalizare
+│   │   ├── __init__.py            # Inițializarea pachetului
+│   │   └── split_data.py          # Împarte datele (Train/Val/Test) și aplică normalizarea MinMax
+│   ├── __init__.py                # Inițializarea pachetului
+│   └── config.py                  # Fișier cu date de configurare și constante
+├── .gitignore                     # Gestionează fișierele ce nu trebuie postate pe GitHub
+├── main.py                        # Orchestrator principal
+├── README.md
+├── README_Etapa3_Analiza_Date.md  # Acest fișier
+└── requirements.txt               # Dependențe Python
 ```
 
 ---

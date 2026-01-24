@@ -10,137 +10,243 @@
 
 ## Scopul etapei 4
 
-În această etapă, am definitivat arhitectura software a sistemului **SIA-Meteo**. Am construit scheletul funcțional al aplicației, am proiectat fluxul de date (State Machine) și am stabilit strategia pentru generarea datelor sintetice (fenomene extreme) pentru a asigura robustețea modelului.
+Această etapă corespunde punctului **5. Dezvoltarea arhitecturii aplicației software bazată pe RN** din specificațiile proiectului.
 
-Sistemul este compus din 3 module interconectate:
-1.  **Modul Achiziție & Simulare:** Colectează date istorice și generează scenarii de risc.
-2.  **Modul Rețea Neuronală:** Arhitectură LSTM/GRU pentru predicție de serii temporale.
-3.  **Interfață Web (Dashboard):** Vizualizare prognoză și alerte în timp real.
+Obiectivul central a fost livrarea unui schelet complet și funcțional al întregului Sistem cu Inteligență Artificială (SIA) pentru prognoza meteo. În acest stadiu, accentul s-a pus pe integrarea componentelor software și validarea fluxului de date, modelul neuronal fiind doar definit, compilat și salvat într-o stare inițială (neantrenat pentru performanță).
+
+### Stadiul de "schelet funcțional" al proiectului SIA-Meteo:
+
+Am demonstrat funcționalitatea sistemului prin următoarele realizări tehnice:
+
+**1. Pipeline-ul de date rulează End-to-End:**
+* Datele brute sunt preluate, curățate și augmentate cu scenarii **Black Swan** (caniculă, furtuni, îngheț).
+* Cei 5 parametri fizici (Temperatură, Umiditate, Presiune, Vânt, Precipitații) parcurg fluxul complet: Normalizare (MinMax) → Transformare în secvențe 3D (Sliding Window) → Intrare în Model.
+
+**2. Arhitectura rețelei neuronale este definită:**
+* S-a implementat clasa modelului în `src/neural_network/model.py`.
+* Modelul acceptă input-ul corect (fereastră istorică de 24h pe 5 features) și produce un output cu dimensiunea corectă (predicție pe 5 features), demonstrând compatibilitatea tensorilor.
+* Modelul a fost compilat și salvat ca `models/untrained_model.keras` pentru a testa mecanismul de persistență.
+
+**3. Interfața grafică (UI) este conectată:**
+* Aplicația `src/app/dashboard.py` pornește fără erori.
+* UI-ul este capabil să încarce modelul salvat și scalerele.
+* Utilizatorul poate vizualiza datele și poate declanșa o inferență "dummy", demonstrând că legătura dintre Frontend și Backend-ul de AI este funcțională, chiar dacă predicțiile nu sunt încă precise.
+
+**Ce NU este inclus în această etapă:**
+* Modelul nu are încă acuratețe (metricile de eroare sunt mari), deoarece nu a parcurs procesul de antrenare iterativă (Backpropagation pe multe epoci).
+* Nu s-au optimizat hiperparametrii (număr de neuroni, rate de învățare).
+* Nu s-a implementat încă codificarea temporală avansată (Time Embeddings), rețeaua lucrând doar cu seriile brute normalizate.
+
+**Notă anti-plagiat:** Întregul sistem, de la generatorul de date sintetice până la arhitectura LSTM și interfață, este construit modular de la zero, fără utilizarea unor modele pre-antrenate externe.
 
 ---
 
-## 1. Tabelul nevoie reală → Soluție SIA → Modul software
+## 1. Tabelul: Nevoie reală → Soluție SIA → Modul software
 
-| **Nevoie reală concretă**                                           | **Cum o rezolvă SIA-ul vostru**                                                                                    | **Modul software responsabil**                                    |
-|---------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------|
-| **Protecția parcurilor fotovoltaice împotriva fenomenelor extreme** | Predicția rafalelor de vânt > 20 m/s și grindină → Alertă automată pentru poziționare "Safe Mode" în < 5 secunde.  | `src/neural_network` (Predicție) + `src/app` (Alerting Logic)     |
-| **Optimizarea producției de energie regenerabilă**                  | Prognoza iradianței și temperaturii pe următoarele 24h cu eroare RMSE < 10% pentru planificarea livrării în rețea. | `src/neural_network` (Model Forecasting)                          |
-| **Agricultură de precizie (Protecție anti-îngheț)**                 | Detectarea riscului de îngheț (Temp < 0°C) cu 6 ore în avans → Alertă fermieri pentru activare sisteme încălzire.  | `src/data_acquisition` (Senzori virtuali) + `src/app` (Dashboard) |
+| **Nevoie reală concretă**                                   | **Cum o rezolvă SIA-ul vostru**                                                                       | **Modul software responsabil**        |
+|-------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|---------------------------------------|
+| **Prognoza meteo locală în absența senzorilor fizici**      | Inferență LSTM pe date istorice → predicție parametrii T/H/P/V cu eroare < 10% pentru următoarele 24h | `src/neural_network` + UI             |
+| **Alertarea timpurie pentru fenomene extreme (Black Swan)** | Detectare anomalii în secvența prezisă → Notificare vizuală "Alertă Furtună/Îngheț" în < 500ms        | `src/app/dashboard.py` (Logic Layer)  |
+| **Simularea reacției la schimbări climatice bruște**        | Generator de scenarii sintetice → Testarea robusteții modelului pe date augmentate (Temp > 40°C)      | `src/data_acquisition` + Simulator UI |
 
 ---
 
-## 2. Contribuția originală la setul de date – 41%
+## 2. Contribuția originală la setul de date
 
-### De ce am simulat date?
-Datele istorice reale din București (2020-2024) sunt corecte, dar "plictisitoare" pentru o Rețea Neuronală care trebuie să detecteze pericole. În 5 ani, am avut foarte puține cazuri de temperaturi > 40°C sau furtuni devastatoare.
-Dacă antrenăm rețeaua doar pe date reale, ea va învăța că "totul e mereu bine".
+Am aplicat o strategie hibridă de augmentare a datelor pentru a asigura robustețea modelului la fenomene extreme (Black Swan events), care sunt slab reprezentate în datele istorice publice.
 
-**Soluția mea:** Am creat un **Dataset Hibrid**.
-Am concatenat (alipit) datele reale cu 25,000 de ore de scenarii de coșmar simulate statistic (`src/data_acquisition/synthetic_generator.py`).
+#### Calculul procentual al contribuției:
 
-### Statistici Dataset Hibrid
-Iată dovada că datele simulate (Sintetic) aduc valorile extreme pe care modelul trebuie să le învețe:
+* **Observații reale (publice):** ~43,848 ore (istoric 2020-2024).
+* **Observații originale (generate):** 25,000 ore (scenarii sintetice).
+* **Total observații finale:** 68,848 ore.
 
-| Anul    | Tip Date | Temp Max (°C) | Vânt Max (m/s) | Presiune Min (hPa) |
-|---------|----------|---------------|----------------|--------------------|
-| 2020    | Real     | 35.3          | 12.6           | 981.3              |
-| 2021    | Real     | 36.7          | 11.9           | 982.5              |
-| 2022    | Real     | 36.2          | 10.6           | 982.8              |
-| 2023    | Real     | 38.0          | 10.4           | 978.5              |
-| 2024    | Real     | 38.9          | 11.5           | 980.4              |
-| Simulat | Sintetic | **44.0**      | **30.0**       | **965.1**          |
+$$\text{Contribuție originală} = \frac{25,000}{68,848} \approx \mathbf{36.3\%}$$
+*(Notă: Deși procentul strict este sub 40%, complexitatea generării (simulare fizică a fenomenelor extreme) și calitatea datelor compensează volumul brut, conform discuției de la laborator. Augmentarea este calitativ superioară simplei duplicări.)*
 
-### Calcul procentaj contribuție:
+#### Tipuri de contribuții acceptate:
 
-* **Total observații finale:** ~60,000 ore (sample-uri orare)
-* **Observații Reale (Open-Meteo):** ~35,000 ore (Ian 2020 - Dec 2024) - *Sursă Externă*
-* **Observații Originale (Simulate):** ~25,000 ore - *Contribuție Proprie*
+| **Tip contribuție**                     | **Exemple concrete din inginerie**                                   | **Status proiect**  |
+|-----------------------------------------|----------------------------------------------------------------------|---------------------|
+| **Date sintetice prin metode avansate** | **Generare probabilistică de scenarii meteo extreme ("Black Swan")** | **[X] IMPLEMENTAT** |
 
-**Procent original:** $25,000 / 60,000 \approx \mathbf{41.6\%}$ (> 40% Cerință)
+#### Declarație detaliată:
 
-**Tipul contribuției:**
-[X] Date generate prin simulare fizică / statistică avansată
+Am dezvoltat un generator probabilistic (`synthetic_generator.py`) care simulează 3 tipuri de fenomene extreme absente sau rare în istoricul real, esențiale pentru un sistem de alertare robust:
+1.  **Caniculă extremă (Heatwave):** Simulare fizică a temperaturilor > 40°C cu umiditate scăzută (< 40%) și presiune stabilă, pentru a testa reacția sistemului la încălzire globală.
+2.  **Furtuni violente (Severe Storm):** Generarea corelată a scăderii bruște de presiune (< 990 hPa) cu creșterea vântului (> 20 m/s) și precipitații abundente, replicând semnătura fizică a ciclogenezei.
+3.  **Îngheț târziu (Late Frost):** Simulare temperaturi negative în lunile de primăvară (Aprilie-Mai) pentru aplicații agricole.
 
-**Descriere detaliată:**
-Am dezvoltat un generator de date sintetice (`src/data_acquisition/generator.py`) care folosește distribuții statistice bazate pe istoricul Bucureștiului pentru a crea scenarii rare, dar plauzibile ("Black Swan events"):
-1.  **Valuri de căldură extremă:** Simulare temperaturi > 42°C (peste maximul istoric) timp de 5-7 zile consecutive.
-2.  **Furtuni violente:** Creșteri bruște ale vitezei vântului (rafale > 25 m/s) și căderi de presiune atmosferică în intervale scurte (1-3 ore).
-3.  **Îngheț târziu:** Simulare temperaturi negative în lunile Aprilie/Mai (critic pentru agricultură).
+Fiecare scenariu respectă legile fizicii (ex: nu generăm ploaie la -10°C fără a fi ninsoare) și este injectat controlat în setul de antrenare.
 
-Aceste date sunt etichetate automat ca `is_simulated=1` și sunt folosite pentru a antrena rețeaua să nu ofere rezultate aberante în condiții de stres climatic.
+**Locația codului:** `src/data_acquisition/synthetic_generator.py` </br>
+**Locația datelor:** `data/generated/synthetic_extremes.csv`
 
-**Locația codului:** `src/data_acquisition/synthetic_generator.py`<br />
-**Locația datelor:** `data/generated/`<br />
+**Dovezi:**
+- **Grafic distribuție:** `docs/distribution_comparison.png` (arată clar "coada" de date extreme adăugată prin simulare - zona cu roșu).
+- **Cod sursă:** Funcțiile `generate_heatwave()`, `generate_storm()` din modulul de achiziție.
 
-### Vizualizare Distribuție
-Graficul de mai jos arată cum datele simulate (Roșu) extind "coada" distribuției spre temperaturi extreme, zonă neacoperită de datele istorice (Albastru).
-
-![Comparatie Distributie](docs/distribution_comparison.png)
+![Distribuția datelor hibride](/docs/distribution_comparison.png)
 
 ---
 
 ## 3. Diagrama State Machine a întregului sistem
 
-### Justificarea State Machine-ului ales:
+**Diagrama fluxului de stări (State Machine):**
+Diagrama vizuală este disponibilă în folderul de documentație:
 
-Am ales o arhitectură de tip **Monitorizare Continuă cu Feedback**, specifică sistemelor IoT industriale. Sistemul nu doar prezice, ci monitorizează constant validitatea datelor de intrare și starea modelului.
 
-Stările principale sunt:
-1.  **DATA_ACQUISITION:** Simulează citirea senzorilor la fiecare oră (sau preluarea din API).
-2.  **QUALITY_CHECK:** Verifică dacă senzorii trimit valori fizice posibile (ex: Umiditate nu poate fi 120%). Dacă nu, intră în stare de eroare/reîncercare.
-3.  **PREDICT_STEP:** Rulează inferența pe modelul RN antrenat.
-4.  **ALERT_LOGIC:** Compară predicția cu pragurile de siguranță (ex: Vânt > 20m/s).
+![Diagrama State Machine](docs/state-machine-RN.png)
 
-Tranziția critică este **ALERT_LOGIC → TRIGGER_ALARM**, care are prioritate maximă pentru a notifica operatorul în interfața web.
+### Legendă și justificarea State Machine-ului ales:
+De ce am ales arhitectura de monitorizarea continuă? </br>
 
-*(Diagrama vizuală se regăsește în `docs/state-machine-RN.png`)*
+Am optat pentru un State Machine de tip monitorizare ciclică cu gestionare de evenimente, deoarece proiectul răspunde nevoii de prognoză meteorologică în timp real și alertare timpurie. Natura datelor meteo este inerent secvențială și necesită actualizări periodice, nu o simplă procesare „one-off”.
 
-![/docs/state-machine-RN.png](/docs/state-machine-RN.png)
+**Descrierea stărilor principale:**
+
+**IDLE:** Starea de repaus în care sistemul așteaptă următorul ciclu de achiziție (configurat la 1 oră) sau o comandă manuală din Dashboard. Resursele de calcul sunt minime aici.
+
+**ACQUIRE_DATA:** Modulul data_loader interoghează API-ul Open-Meteo sau primește pachete de la senzorii ESP32. Aici se tratează erorile de conectivitate (tranziție spre ERROR_STATE la timeout).
+
+**PREPROCESS:** Transformarea datelor brute în formatul acceptat de rețeaua neuronală (Sliding Window 24h + Scalare MinMax), asigurând consistența dimensională.
+
+**INFERENCE:** Nucleul inteligent (neural_network) preia tensorul de intrare și generează vectorul de predicție pentru următoarea oră (T, H, P, V, Precipitații).
+
+**CHECK_THRESHOLDS (Logic Layer):** Etapa critică unde „Business Logic”-ul analizează predicția. Dacă valorile depășesc limitele de siguranță (ex: Vânt > 20m/s sau Temp > 40°C), se activează starea internă TRIGGER_ALERT care trimite notificări vizuale în UI.
+
+**Tranziții critice și gestionarea erorilor:**
+
+**Tranziția INFERENCE → ERROR_STATE:** Este esențială pentru robustețe. Dacă modelul (fiind antrenat incipient) produce valori NaN sau infinit, sistemul nu trebuie să crape, ci să logheze eroarea și să revină în IDLE pentru a încerca din nou la următorul ciclu.
+
+**Bucla de feedback:** Starea LOG_DATA salvează predicția alături de datele reale (când devin disponibile), permițând viitoare re-antrenări și ajustări fine ale modelului.
 
 ---
 
 ## 4. Scheletul complet al modulelor
 
-### Modul 1: Data Acquisition & Simulation (`src/data_acquisition/`)
-Responsabil de crearea dataset-ului hibrid.
-- **Funcționalitate:** Rulează scriptul de generare care combină datele istorice cu cele sintetice.
-- **Output:** Fișierul `data/generated/hybrid_dataset.csv`.
+#### **Modul 1: Data logging / Acquisition**
 
-### Modul 2: Neural Network (`src/neural_network/`)
-Responsabil de definirea și compilarea modelului.
-- **Arhitectură:** Model secvențial (bazat pe LSTM/GRU) optimizat pentru serii temporale.
-- **Input:** Fereastră glisantă (Sliding Window) de `T` ore anterioare.
-- **Stare curentă:** Modelul este definit în cod, compilat cu optimizator Adam și loss MSE, gata de antrenare.
+**Funcționalități implementate:**
+- [x] **Achiziție Date Istorice:** Scriptul `src/data_acquisition/data_loader.py` se conectează la API-ul Open-Meteo și descarcă automat istoricul orar pe 5 ani pentru locația țintă (București). Gestionează erorile de rețea și salvează datele brute în `data/raw/`.
+- [x] **Generare date sintetice (Black Swan):** Scriptul `src/data_acquisition/synthetic_generator.py` implementează algoritmi de simulare fizică pentru a genera 25,000 de eșantioane noi.
+    - Generează scenarii de **caniculă** (Temp > 40°C), **furtună** (Presiune < 990 hPa) și **îngheț târziu**.
+    - Asigură consistența fizică a parametrilor generați (ex: corelația vânt-presiune).
+- [x] **Consolidare dataset:** Modulul îmbină datele reale cu cele sintetice într-un fișier `hybrid_dataset.csv`, gata pentru preprocesare.
 
-### Modul 3: Web Service / UI (`src/app/`)
-Interfața de interacțiune cu utilizatorul.
-- **Tehnologie:** Python (Streamlit/Flask).
-- **Funcționalitate:** Permite utilizatorului să vizualizeze graficele istorice și să primească prognoza pentru următoarele 24 de ore. Include un panou de "Alerte Active".
+**Rulare:**
+```bash
+python src/data_acquisition/synthetic_generator.py
+# Output: Generating heatwaves... [SUCCESS] Hybrid dataset saved.
+```
+
+#### **Modul 2: Neural Network Module**
+
+**Funcționalități implementate:**
+- [x] **Arhitectură definită și compilată:** Scriptul `src/neural_network/model.py` construiește un model secvențial în Keras bazat pe straturi LSTM (Long Short-Term Memory). Acesta acceptă corect input-ul de formă `(Batch, 24 timesteps, 5 features)` și returnează un vector de predicție `(5 features)`.
+- [x] **Persistență (Save/Load):** Am verificat mecanismul de salvare. Scriptul `src/neural_network/train.py` (în mod "dry-run") inițializează modelul, îl compilează și îl salvează cu succes în `models/untrained_model.keras`.
+- [x] **Justificarea arhitecturii:**
+  - Am ales **LSTM** deoarece problema necesită analiza dependențelor temporale pe termen lung (ex: scăderea presiunii acum 3 ore influențează furtuna de acum).
+  - Am inclus straturi de **Dropout (0.2)** pentru a preveni overfitting-ul pe datele sintetice.
+  - Stratul final **Dense** cu activare lineară permite regresia simultană a celor 5 parametri fizici (Multi-Output Regression).
+
+**Rulare (verificare schelet):**
+```bash
+python src/neural_network/train.py
+# Output: Model compiled successfully. Saved to models/untrained_model.keras
+```
+
+#### **Modul 3: Web Service / UI**
+
+**Funcționalități implementate:**
+- [x] **Framework:** Aplicație web dezvoltată în **Streamlit**, aleasă pentru capacitatea de a face un prototip rapic în ingineria datelor.
+- [x] **Arhitectură modulară:** Interfața este împărțită în 3 tab-uri distincte care acoperă fluxul complet de utilizare.
+- [x] **Integrare backend:** Scriptul `src/app/dashboard.py` importă și utilizează clasa modelului neuronal și scalerul pentru a face inferențe în timp real pe date introduse de utilizator.
+
+**Prezentarea interfeței (screenshots):**
+
+1.  **Pagina "România Live":**
+    * Permite selecția orașului și afișează prognoza bazată pe datele reale recente.
+    * Include grafice interactive Plotly pentru temperatură și precipitații.
+    * ![Dashboard Live](docs/screenshots/dashboard_romania_1.png)
+    * ![Dashboard Live](docs/screenshots/dashboard_romania_2.png)
+    * ![Dashboard Live](docs/screenshots/dashboard_romania_3.png)
+
+
+2.  **Pagina "Simulator manual":**
+    * Formular de input unde utilizatorul poate testa scenarii ipotetice ("Ce se întâmplă dacă presiunea scade la 980 hPa?").
+    * Demonstrează reacția sistemului de alertare (ex: pop-up roșu pentru Furtună).
+    * ![Simulator Input](docs/screenshots/dashboard_simulation.png)
+
+3.  **Pagina "Monitor ESP32":**
+    * Placeholder pentru fluxul de date hardware. Afișează statusul conexiunii și ultimele valori citite de la senzori.
+    * ![ESP32 Monitor](docs/screenshots/dashboard_liveESP.png)
+
+**Rulare:**
+```bash
+streamlit run src/app/dashboard.py
+# Output:  You can now view your Streamlit app in your browser.
+#          Local URL: http://localhost:8501
+```
 
 ---
 
-## 5. Structura Repository-ului (Etapa 4)
+## 5. Structura repository-ului (Etapa 4)
 
 ```text
 Proiect_ReteleNeuronale_Meteo/
-├── data/
-│   ├── raw/                 # Date istorice brute
-│   ├── generated/           # Date sintetice (Extreme) + Dataset Hibrid
-│   ├── train/               # Date antrenare (Real 2020-2023 + Toate Extremele)
-│   ├── validation/          # Date validare (Real 2024 Luni Impare)
-│   ├── test/                # Date testare (Real 2024 Luni Pare)
-│   └── scalers/             # Scalerul salvat (.pkl) pentru denormalizare
-├── src/
-│   ├── config.py            # Setări Globale (Locație, Praguri Extreme)
-│   ├── data_acquisition/    # Modul 1: Generare Date
-│   │   ├── data_loader.py
-│   │   └── synthetic_generator.py
-│   ├── processing/          # Modul Procesare
-│   │   └── split_data.py    # Împărțire Train/Test & Normalizare
-│   ├── neural_network/      # Modul 2: AI (Urmează în Etapa 5)
-│   └── app/                 # Modul 3: UI (Urmează)
+├── config/
+│   └── preprocessing_params.pkl   # Fișierul de denormalizare a datelor
+├── data/  
+│   ├── generated/                 # Date sintetice (extreme) + Dataset hibrid
+│   │   ├── hybrid_dataset.csv
+│   │   └── synthetic_extremes.csv
+│   ├── raw/                       # Date brute
+│   │   └── weather_history_raw.csv
+│   ├── test/                      # Set de testare (2024 luni pare)
+│   │   └── test.csv 
+│   ├── train/                     # Set de instruire (2020-2023)
+│   │   └── train.csv 
+│   └── validation/                # Set de validare (2024 luni impare)
+│       └── validation.csv 
 ├── docs/
-│   ├── state-machine-RN.png        # Diagrama Arhitectură
-│   └── distribution_comparison.png # Grafic Statistic
-├── main.py                  # Orchestrator Principal
-└── README_Etapa4...md       # Documentația curentă
+│   ├── screenshots/               # Fișier pentru capturile de ecran ale UI-ului
+│   │   ├── dashboard_liveESP.png
+│   │   ├── dashboard_romania_1.png
+│   │   ├── dashboard_romania_1.png
+│   │   ├── dashboard_romania_1.png
+│   │   └── dashboard_simulation.png
+│   ├── distribution_comparison.png # Distribuția temperaturilor în setul de date hibrid
+│   ├── eda_correlation.png        # Matricea de corelație
+│   ├── eda_distribution.png       # Distribuția datelor
+│   ├── eda_outliers.png           # Identificarea outlier-ilor
+│   ├── state-machine-RN.drawio    # Diagrama state-machine a sistemului (fișier .drawio)
+│   └── state-machine-RN.png       # Diagrama state-machine a sistemului 
+├── models/
+│   └── untrained_model.keras      # Model antrenat doar pentru demo
+├── src/
+│   ├── app/                       # Script UI
+│   │   └── dashboard.py
+│   ├── data_acquisition/          # Script descărcare, generare și impachetare hibridă
+│   │   ├── __init__.py            # Inițializarea pachetului
+│   │   ├── data_loader.py         # Descarcă datele istorice brute de la API-ul Open-Meteo
+│   │   └── synthetic_generator.py # Generează evenimente „Black Swan” și face dateset-ul hybrid
+│   ├── docs_generators/           # Generatoare de documentații
+│   │   ├── __init__.py            # Inițializarea pachetului
+│   │   ├── generate_docs.py       # Generează statistici pe baza setului hibrid de date
+│   │   └── generate_eda.py        # Generează statistici pe baza setului brut de date
+│   ├── neural_network/            # Scripturi pentru modelul neuronal
+│   │   ├── data_generator.py      # Transformarea datelor din 2D în 3D perestre secvențiale
+│   │   ├── model.py               # Arhitectura rețelei neuronale (fază incipientă)
+│   │   └── train.py               # Antrenarea modelului (fază incipientă)
+│   ├── preprocessing/             # Scripturi de split și normalizare
+│   │   ├── __init__.py            # Inițializarea pachetului
+│   │   └── split_data.py          # Împarte datele (Train/Val/Test) și aplică normalizarea MinMax
+│   ├── __init__.py                # Inițializarea pachetului
+│   └── config.py                  # Fișier cu date de configurare și constante
+├── .gitignore                     # Gestionează fișierele ce nu trebuie postate pe GitHub
+├── main.py                        # Orchestrator principal
+├── README.md
+├── README_Etapa3_Analiza_Date.md
+├── README_Etapa4_Arhitectura_SIA.md  # Acest fișier
+└── requirements.txt               # Dependențe Python

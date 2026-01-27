@@ -115,7 +115,7 @@ Pentru a crește robustețea modelului în mediu industrial/real, am aplicat teh
 Graficul de mai jos ilustrează evoluția erorii (MSE) pe seturile de antrenare și validare:
 
 
-![Loss Curve](docs/loss_curve_5_input_parameters.png)
+![Loss Curve](docs/loss_curve_5_output_parameters.png)
 
 *Analiză:* Convergența curbelor (Train vs Validation) demonstrează că modelul a generalizat corect regulile fizice, fără a suferi de overfitting major (distanța mică între curbe).
 
@@ -145,7 +145,7 @@ Analizând rezultatele, am identificat comportamente specifice senzorilor și me
 Graficul de mai jos arată suprapunerea predicțiilor (roșu) peste datele reale (albastru) pentru un eșantion din setul de test.
 
 
-![Prediction Plot](docs/prediction_plot_5_input_parameters.png)
+![Prediction Plot](docs/prediction_plot_5_output_parameters.png)
 
 ---
 
@@ -357,8 +357,9 @@ Proiect_ReteleNeuronale_Meteo/
 ├── models/
 │   ├── trained_model.keras        # Model antrenat corespunzător
 │   └── untrained_model.keras      # Model antrenat doar pentru demo (etapa 4)
-├── models/
-│   └── test_metrics.json          # Statisticile antrenărilor
+├── results/
+│   ├── test_metrics.json          # Statisticile modelului
+│   └── training_history.json      # Parametrii antrenării
 ├── src/
 │   ├── app/                       # Script UI
 │   │   └── dashboard.py

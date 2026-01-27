@@ -56,6 +56,13 @@ API_URL_TEMPLATE = (
 )
 
 # =============================================================================
+#  DATASET CONTROL
+# =============================================================================
+# Set to True for standard training (Black Swan + Real)
+# Set to False for "Real Data Only" experiment
+USE_SYNTHETIC_DATA = True
+
+# =============================================================================
 #  SYNTHETIC DATA GENERATION (Black Swan Events)
 # =============================================================================
 # Constraints used to generate physically plausible extreme weather events

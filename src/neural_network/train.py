@@ -96,7 +96,23 @@ def train_pipeline():
         verbose=1 # Shows the progress bar
     )
 
-    # Save training history (loss curve)
+    # Save training history
+    print("\nSaving training history CSV...")
+
+    # Ensure the results directory exists
+    results_dir = os.path.join(config.BASE_DIR, 'results')
+    os.makedirs(results_dir, exist_ok=True)
+
+    # Convert history dictionary to DataFrame
+    history_df = pd.DataFrame(history.history)
+    history_df.index.name = 'epoch'
+
+    # Save to CSV
+    history_csv_path = os.path.join(results_dir, 'training_history.csv')
+    history_df.to_csv(history_csv_path)
+    print(f"History saved to {history_csv_path}")
+
+    # Plot loss curve
     print("\nGenerating training loss curve...")
     plt.figure(figsize=(10, 6))
     plt.plot(history.history['loss'], label='Train loss (MSE)')
@@ -108,6 +124,7 @@ def train_pipeline():
     plt.grid(True, alpha=0.3)
 
     loss_img_path = os.path.join(config.BASE_DIR, 'docs', 'loss_curve.png')
+    os.makedirs(os.path.dirname(loss_img_path), exist_ok=True)
     plt.savefig(loss_img_path)
     print(f"Loss curve saved to {loss_img_path}")
     print(f"Model saved to {model_save_path}")

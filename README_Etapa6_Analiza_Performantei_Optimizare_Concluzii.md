@@ -1,4 +1,5 @@
-# 📘 README – Etapa 6: Analiza Performanței, Optimizarea și Concluzii Finale
+
+# 📘 README – Etapa 6: Analiza performanței, optimizarea și concluzii finale
 
 **Disciplina:** Rețele Neuronale  
 **Instituție:** POLITEHNICA București – FIIR  
@@ -56,7 +57,7 @@ Modelul optimizat (cu 9 intrări) surclasează modelul inițial la toate categor
 Comparând graficele generate în `docs/`, se observă stabilitatea superioară a modelului final.
 
 * **Grafic V1 (5 inputs):** [prediction_plot_5_input_parameters.png](docs/prediction_plot_5_input_parameters.png) - Liniile de predicție au "zgomot" și ratează vârfurile locale.
-* **Grafic V2 (9 inputs):** [prediction_plot.png](docs/prediction_plot.png) - Linia roșie (AI) se suprapune aproape perfect peste cea albastră (Real), mai ales la temperatură și presiune.
+* **Grafic V2 (9 inputs):** [prediction_plot.png](docs/prediction_plot_9_output_parameters.png) - Linia roșie (AI) se suprapune aproape perfect peste cea albastră (Real), mai ales la temperatură și presiune.
 
 ---
 
@@ -109,27 +110,66 @@ Proiectul **SIA-Meteo** a atins și depășit obiectivele inițiale, demonstrân
 ```text
 Proiect_ReteleNeuronale_Meteo/
 ├── config/
-│   └── preprocessing_params.pkl       # Scaler Antrenat (9 features)
-├── data/
-│   ├── generated/                     # Dataset Hibrid
-│   └── ... (train/val/test splits)
+│   └── preprocessing_params.pkl   # Fișierul de denormalizare a datelor
+├── data/  
+│   ├── generated/                 # Date sintetice (extreme) + Dataset hibrid
+│   │   ├── hybrid_dataset.csv
+│   │   └── synthetic_extremes.csv
+│   ├── raw/                       # Date brute
+│   │   └── weather_history_raw.csv
+│   ├── test/                      # Set de testare (2024 luni pare)
+│   │   └── test.csv 
+│   ├── train/                     # Set de instruire (2020-2023)
+│   │   └── train.csv 
+│   └── validation/                # Set de validare (2024 luni impare)
+│       └── validation.csv 
 ├── docs/
-│   ├── loss_curve.png                 # Grafic convergență V2
-│   ├── loss_curve_5_input...png       # Grafic convergență V1 (Istoric)
-│   ├── prediction_plot.png            # Performanță V2 (Optim)
-│   ├── prediction_plot_5_input...png  # Performanță V1 (Baseline)
-│   └── screenshots/                   # Capturi din Dashboard
+│   ├── screenshots/               # Fișier pentru capturile de ecran ale UI-ului
+│   │   ├── dashboard_liveESP.png
+│   │   ├── dashboard_romania_1.png
+│   │   ├── dashboard_romania_1.png
+│   │   ├── dashboard_romania_1.png
+│   │   └── dashboard_simulation.png
+│   ├── distribution_comparison.png # Distribuția temperaturilor în setul de date hibrid (etapa 4)
+│   ├── eda_correlation.png        # Matricea de corelație
+│   ├── eda_distribution.png       # Distribuția datelor
+│   ├── eda_outliers.png           # Identificarea outlier-ilor
+│   ├── loss_curve.png             # Graficul de antrenare a modelului
+│   ├── prediction_plot.png        # Graficele de predicție pentru fiecare parametru
+│   ├── state-machine-RN.drawio    # Diagrama state-machine a sistemului (fișier .drawio)
+│   └── state-machine-RN.png       # Diagrama state-machine a sistemului 
 ├── models/
-│   ├── trained_model.keras            # Model Final (9 inputs)
-│   └── trained_model_5_input...keras  # Model Vechi (5 inputs)
+│   ├── trained_model.keras        # Model antrenat corespunzător
+│   └── untrained_model.keras      # Model antrenat doar pentru demo (etapa 4)
 ├── results/
-│   ├── test_metrics.json              # Rezultate V2
-│   └── test_metrics_5_input...json    # Rezultate V1
+│   ├── test_metrics.json          # Statisticile modelului
+│   └── training_history.json      # Parametrii antrenării
 ├── src/
-│   ├── app/                           # Interfața Web
+│   ├── app/                       # Script UI
 │   │   └── dashboard.py
-│   ├── data_acquisition/              # ETL & Synthetic Gen
-│   ├── neural_network/                # Arhitectura LSTM & Training
-│   └── processing/                    # Split & Scaling
-├── main.py                            # Orchestrator
-└── README_*.md                        # Documentație completă
+│   ├── data_acquisition/          # Script descărcare, generare și impachetare hibridă
+│   │   ├── __init__.py            # Inițializarea pachetului
+│   │   ├── data_loader.py         # Descarcă datele istorice brute de la API-ul Open-Meteo
+│   │   └── synthetic_generator.py # Generează evenimente „Black Swan” și face dateset-ul hybrid
+│   ├── docs_generators/           # Generatoare de documentații
+│   │   ├── __init__.py            # Inițializarea pachetului
+│   │   ├── generate_docs.py       # Generează statistici pe baza setului hibrid de date
+│   │   └── generate_eda.py        # Generează statistici pe baza setului brut de date
+│   ├── neural_network/            # Scripturi pentru modelul neuronal
+│   │   ├── data_generator.py      # Transformarea datelor din 2D în 3D perestre secvențiale
+│   │   ├── evaluate.py            # Testarea modelului si formarea statisticilor
+│   │   ├── model.py               # Arhitectura rețelei neuronale (fază incipientă)
+│   │   └── train.py               # Antrenarea modelului (fază incipientă)
+│   ├── preprocessing/             # Scripturi de split și normalizare
+│   │   ├── __init__.py            # Inițializarea pachetului
+│   │   └── split_data.py          # Împarte datele (Train/Val/Test) și aplică normalizarea MinMax
+│   ├── __init__.py                # Inițializarea pachetului
+│   └── config.py                  # Fișier cu date de configurare și constante
+├── .gitignore                     # Gestionează fișierele ce nu trebuie postate pe GitHub
+├── main.py                        # Orchestrator principal
+├── README.md
+├── README_Etapa3_Analiza_Date.md
+├── README_Etapa4_Arhitectura_SIA.md
+├── README_Etapa5_Antrenare_RN.md  # Acest fișier
+└── requirements.txt               # Dependențe Python
+```

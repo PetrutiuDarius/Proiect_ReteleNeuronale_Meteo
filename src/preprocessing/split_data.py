@@ -13,11 +13,13 @@ Key responsibilities:
 """
 
 import pandas as pd
+import numpy as np
 import os
 import sys
 import joblib
 from sklearn.preprocessing import MinMaxScaler
 from src import config
+from src.data_acquisition.data_loader import load_raw_data
 
 def split_and_normalize_dataset() -> None:
     """
@@ -33,40 +35,56 @@ def split_and_normalize_dataset() -> None:
     """
     print("Starting data splitting & normalization pipeline...")
 
-    # Load the hybrid dataset
-    if not os.path.exists(config.HYBRID_DATA_PATH):
-        print(f"Hybrid dataset missing at: {config.HYBRID_DATA_PATH}")
-        print("Execute 'main.py' (Phase 1 & 2) first.")
-        sys.exit(1)
+    # --- EXPERIMENT LOGIC: Chooses between Hybrid and Raw ---
+    input_path = ""
+    is_hybrid_mode = getattr(config, 'USE_SYNTHETIC_DATA', True) # Default to True if missing
+    df_full = None
 
-    try:
-        df_full = pd.read_csv(config.HYBRID_DATA_PATH)
+    if is_hybrid_mode:
+        print("[MODE] Loading HYBRID dataset (Real + Black Swan)...")
+        input_path = config.HYBRID_DATA_PATH
+        if not os.path.exists(input_path):
+            print(f"Hybrid dataset missing at: {input_path}")
+            sys.exit(1)
 
-        # Handle cases where the index was saved without a name (resulting in 'Unnamed: 0')
-        if 'timestamp' not in df_full.columns:
-            if 'Unnamed: 0' in df_full.columns:
-                print("[WARN] detected unnamed index column. Renaming to 'timestamp'.")
-                df_full.rename(columns={'Unnamed: 0': 'timestamp'}, inplace=True)
-            else:
-                # If the timestamp is missing and no unnamed column, it might be the index already
-                # but read_csv usually creates a RangeIndex if not specified.
-                print(f"[CRITICAL] Column 'timestamp' not found. Columns are: {df_full.columns.tolist()}")
-                sys.exit(1)
+        try:
+            df_full = pd.read_csv(input_path)
+            # Handle index
+            if 'timestamp' not in df_full.columns:
+                if 'Unnamed: 0' in df_full.columns:
+                    df_full.rename(columns={'Unnamed: 0': 'timestamp'}, inplace=True)
 
-    except Exception as e:
-        print(f"Failed to read CSV: {e}")
-        sys.exit(1)
+            # Hybrid dataset comes already formatted, just need datetime conversion
+            df_full['timestamp'] = pd.to_datetime(df_full['timestamp'], errors='coerce')
+            df_full.set_index('timestamp', inplace=True, drop=False)
 
-    # Convert timestamp to datetime objects for temporal filtering
-    df_full['timestamp'] = pd.to_datetime(df_full['timestamp'], errors='coerce')
+        except Exception as e:
+            print(f"Failed to read Hybrid CSV: {e}")
+            sys.exit(1)
 
-    # I set timestamp as an index for easy slicing but keep it as a column for debugging
-    df_full.set_index('timestamp', inplace=True, drop=False)
+    else:
+        print("[MODE] Loading RAW dataset (Real Data ONLY) via Data Loader...")
+        # AICI E SCHIMBAREA CHEIE: Folosim functia existenta care stie sa redenumeasca coloanele!
+        try:
+            df_full = load_raw_data()
+
+            # load_raw_data returneaza index-ul setat corect ca datetime,
+            # dar avem nevoie de coloana 'timestamp' explicita pentru logica de mai jos
+            df_full.reset_index(inplace=True)
+            df_full['timestamp'] = pd.to_datetime(df_full['timestamp'], errors='coerce')
+            df_full.set_index('timestamp', inplace=True, drop=False)
+
+            print(f"   -> Successfully loaded clean raw data via loader. Shape: {df_full.shape}")
+
+        except Exception as e:
+            print(f"Failed to load raw data via loader: {e}")
+            sys.exit(1)
 
     # Validation: Ensure all required parameters exist
     missing_cols = [col for col in config.FEATURE_COLS if col not in df_full.columns]
     if missing_cols:
         print(f"Dataset is missing features required by config: {missing_cols}")
+        print(f"Found columns: {df_full.columns.tolist()}")
         sys.exit(1)
 
     # Segregate real vs. Synthetic data

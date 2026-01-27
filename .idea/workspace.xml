@@ -5,14 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9f34c434-bcbe-4f42-8c2a-f9209ac9dc18" name="Changes" comment="Etapa 5&#10;Realizarea documentatiei initiale pentru etapa 5 cu obiectivele etapei.">
-      <change afterPath="$PROJECT_DIR$/docs/screenshots/dashboard_liveESP.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/screenshots/dashboard_romania_1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/screenshots/dashboard_romania_2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/screenshots/dashboard_romania_3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/screenshots/dashboard_simulation.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README_Etapa4_Arhitectura_SIA.md" beforeDir="false" afterPath="$PROJECT_DIR$/README_Etapa4_Arhitectura_SIA.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/REAME_Etapa3_Analiza_Date.md" beforeDir="false" afterPath="$PROJECT_DIR$/README_Etapa3_Analiza_Date.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README_Etapa5_Antrenare_RN.md" beforeDir="false" afterPath="$PROJECT_DIR$/README_Etapa5_Antrenare_RN.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,7 +14,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="51" />
+    <option name="cachedIndexableFilesCount" value="56" />
     <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
   </component>
   <component name="FileTemplateManagerImpl">
@@ -53,34 +47,34 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
-    "Python.dashboard.executor": "Run",
-    "Python.evaluate.executor": "Run",
-    "Python.generate_docs (1).executor": "Run",
-    "Python.generate_docs.executor": "Run",
-    "Python.generate_eda.executor": "Run",
-    "Python.main.executor": "Run",
-    "Python.train_model.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "main",
-    "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "C:/Users/dariu/Desktop/Retele Neuronale - RN/Proiect/Proiect_ReteleNeuronale_Meteo/docs",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "to.speed.mode.migration.done": "true",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
+    &quot;Python.dashboard.executor&quot;: &quot;Run&quot;,
+    &quot;Python.evaluate.executor&quot;: &quot;Run&quot;,
+    &quot;Python.generate_docs (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.generate_docs.executor&quot;: &quot;Run&quot;,
+    &quot;Python.generate_eda.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.train_model.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/dariu/Desktop/Retele Neuronale - RN/Proiect/Proiect_ReteleNeuronale_Meteo/docs&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\dariu\Desktop\Retele Neuronale - RN\Proiect\Proiect_ReteleNeuronale_Meteo\docs" />
@@ -255,7 +249,8 @@
       <workItem from="1768416029489" duration="17960000" />
       <workItem from="1769070971130" duration="8131000" />
       <workItem from="1769102403760" duration="6610000" />
-      <workItem from="1769246587569" duration="7805000" />
+      <workItem from="1769246587569" duration="12328000" />
+      <workItem from="1769509523850" duration="7574000" />
     </task>
     <task id="LOCAL-00001" summary="Am modificat structurarea datelor de validate si de test.">
       <option name="closed" value="true" />

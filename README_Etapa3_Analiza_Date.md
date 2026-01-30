@@ -81,14 +81,14 @@ Această secțiune prezintă structura dataset-ului utilizat pentru antrenarea r
 
 Tabelul de mai jos detaliază variabilele fizice monitorizate, unitățile de măsură și domeniul de valori observat în datele istorice brute.
 
-| Caracteristică | Tip | Unitate | Descriere | Domeniu valori (Istoric) |
-| :--- | :--- | :--- | :--- | :--- |
-| **timestamp** | Temporal | - | Data și ora înregistrării observației. | 2020-01-01 ... 2024-12-31 |
-| **temperature_2m** | Numeric | °C | Temperatura aerului la 2 metri deasupra solului. | -15.0 ... +42.0 |
-| **relative_humidity_2m** | Numeric | % | Umiditatea relativă a aerului. | 18.0 ... 100.0 |
-| **surface_pressure** | Numeric | hPa | Presiunea atmosferică la nivelul solului. | 970.0 ... 1050.0 |
-| **wind_speed_10m** | Numeric | m/s | Viteza vântului la 10 metri altitudine. | 0.0 ... 25.0 |
-| **precipitation** | Numeric | mm | Cantitatea totală de precipitații (ploaie/zăpadă) acumulată în ultima oră. | 0.0 ... 25.0 |
+| Caracteristică           | Tip      | Unitate | Descriere                                                                  | Domeniu valori (Istoric)  |
+|:-------------------------|:---------|:--------|:---------------------------------------------------------------------------|:--------------------------|
+| **timestamp**            | Temporal | -       | Data și ora înregistrării observației.                                     | 2020-01-01 ... 2024-12-31 |
+| **temperature_2m**       | Numeric  | °C      | Temperatura aerului la 2 metri deasupra solului.                           | -15.0 ... +42.0           |
+| **relative_humidity_2m** | Numeric  | %       | Umiditatea relativă a aerului.                                             | 18.0 ... 100.0            |
+| **surface_pressure**     | Numeric  | hPa     | Presiunea atmosferică la nivelul solului.                                  | 970.0 ... 1050.0          |
+| **wind_speed_10m**       | Numeric  | m/s     | Viteza vântului la 10 metri altitudine.                                    | 0.0 ... 25.0              |
+| **precipitation**        | Numeric  | mm      | Cantitatea totală de precipitații (ploaie/zăpadă) acumulată în ultima oră. | 0.0 ... 25.0              |
 
 ---
 
@@ -100,13 +100,13 @@ Analiza statistică a fost realizată pe setul de date brut (`weather_history_ra
 
 S-au calculat metricile fundamentale pentru cei 5 parametri fizici monitorizați. Tabelul de mai jos sintetizează tendința centrală și dispersia datelor:
 
-| Feature | Mean | Std Dev | Min | Median (50%) | Max | IQR |
-|---|---|---|---|---|---|---|
-| **temperature** | 13.18 | 9.60 | -11.10 | 12.80 | 38.80 | 15.60 |
-| **humidity** | 70.15 | 19.82 | 15.00 | 73.00 | 100.00 | 33.00 |
-| **pressure** | 1006.64 | 7.60 | 978.50 | 1005.90 | 1033.30 | 9.50 |
-| **wind_speed** | 2.81 | 1.53 | 0.00 | 2.47 | 12.58 | 1.77 |
-| **precipitation** | 0.07 | 0.36 | 0.00 | 0.00 | 15.90 | 0.00 |
+| Feature           | Mean    | Std Dev | Min    | Median (50%) | Max     | IQR   |
+|-------------------|---------|---------|--------|--------------|---------|-------|
+| **temperature**   | 13.18   | 9.60    | -11.10 | 12.80        | 38.80   | 15.60 |
+| **humidity**      | 70.15   | 19.82   | 15.00  | 73.00        | 100.00  | 33.00 |
+| **pressure**      | 1006.64 | 7.60    | 978.50 | 1005.90      | 1033.30 | 9.50  |
+| **wind_speed**    | 2.81    | 1.53    | 0.00   | 2.47         | 12.58   | 1.77  |
+| **precipitation** | 0.07    | 0.36    | 0.00   | 0.00         | 15.90   | 0.00  |
 
 * **Distribuții pe caracteristici (Histograme):**
     * **Temperatură:** Distribuție bimodală, specifică climatului temperat (ierni reci vs. veri calde).

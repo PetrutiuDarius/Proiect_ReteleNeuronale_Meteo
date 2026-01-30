@@ -1,10 +1,16 @@
 # src/neural_network/evaluate.py
 """
-Model Evaluation Module.
+Model Evaluation & Inference Module.
 
-Loads the trained model and test data, performs multi-target inference,
-calculates regression metrics (MAE, RMSE, R2) for each weather parameter individually,
-and generates comparative plots.
+This script is responsible for the rigorous assessment of the trained Neural Network.
+It loads the model artifacts, performs inference on the unseen Test Set (2024),
+and computes standard regression metrics.
+
+Key Features:
+- Physics-Informed Post-Processing: Applies domain constraints (e.g., non-negative rain).
+- Asymmetric Loss Support: Registers custom loss functions for model loading.
+- Advanced Denormalization: Handles shape mismatches between scaler inputs and model outputs.
+- Visualization: Generates comparative time-series plots for qualitative analysis.
 """
 
 import os
@@ -14,6 +20,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import joblib
+import tensorflow as tf
 from tensorflow.keras.models import load_model
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
@@ -26,59 +33,129 @@ from src import config
 from src.neural_network.data_generator import TimeSeriesGenerator
 
 
+# -------------------------------------------------------------------------
+# CUSTOM OBJECT REGISTRATION
+# -------------------------------------------------------------------------
+# We must register this function so Keras can reconstruct the model graph
+# from the saved file without throwing a DeserializationError.
+@tf.keras.utils.register_keras_serializable()
+def asymmetric_precipitation_loss(y_true, y_pred):
+    """
+    Re-definition of the custom loss function used during training.
+    Strictly required for the `load_model` process.
+    """
+    squared_error = tf.square(y_true - y_pred)
+    overestimation_mask = tf.cast(tf.greater(y_pred, y_true), tf.float32)
+
+    # Target specific column: Precipitation (Index 4)
+    rain_col_idx = 4
+    feature_count = 5
+
+    # Create broadcast mask
+    rain_column_mask = tf.one_hot(indices=[rain_col_idx] * tf.shape(y_true)[0], depth=feature_count)
+    rain_column_mask = tf.reshape(rain_column_mask, tf.shape(y_true))
+
+    # Apply penalty for false positives
+    penalty_magnitude = 20.0
+    penalty_factor = 1.0 + (overestimation_mask * rain_column_mask * penalty_magnitude)
+
+    return tf.reduce_mean(squared_error * penalty_factor)
+
+
+# -------------------------------------------------------------------------
+# POST-PROCESSING LOGIC
+# -------------------------------------------------------------------------
 def apply_physics_constraints(data: np.ndarray, feature_names: list) -> np.ndarray:
     """
-    Post-preprocessing filter to enforce physical laws on predictions.
+    Applies domain-specific physical constraints to the raw model predictions.
+    Deep Learning models are purely mathematical and may produce physically
+    impossible values (e.g., negative rain). This filter corrects them.
 
-    Rules applied:
-    1. Non-Negativity: Variables like Rain, Humidity, Wind cannot be negative.
-    2. Saturation: Humidity cannot exceed 100%.
-    3. Noise gating: Very small precipitation values (<0.05mm) are clamped to 0.
+    Applied Rules:
+    1. Non-Negativity: Scalar quantities (Wind, Rain, Humidity) cannot be < 0.
+    2. Saturation: Relative Humidity cannot exceed 100%.
+    3. Noise Gating: Precipitations < 0.1mm are treated as sensor/model noise and clamped to 0.
     """
     corrected_data = data.copy()
 
     for i, name in enumerate(feature_names):
-        # Clip negative values to 0 for scalar physical quantities
+        # Rule 1: Clip negative values for physical scalars
         if name in ['humidity', 'wind_speed', 'precipitation']:
             corrected_data[:, i] = np.maximum(corrected_data[:, i], 0.0)
 
-        # Cap humidity at 100%
+        # Rule 2: Cap humidity at saturation point
         if name == 'humidity':
             corrected_data[:, i] = np.minimum(corrected_data[:, i], 100.0)
 
-        # Rain noise gate (suppress 'micro-rain' hallucinations)
+        # Rule 3: Precipitation Noise Gate (The "Zero-Inflation" Fix)
+        # This eliminates the "constant drizzle" artifact in regression models.
         if name == 'precipitation':
-            # Values smaller than 0.05mm are likely model noise, treat as dry
-            corrected_data[:, i] = np.where(corrected_data[:, i] < 0.05, 0.0, corrected_data[:, i])
+            threshold_mm = 0.1
+            mask_noise = corrected_data[:, i] < threshold_mm
+            corrected_data[mask_noise, i] = 0.0
+
+            count_filtered = np.sum(mask_noise)
+            if count_filtered > 0:
+                print(f"   [Physics] Filtered {count_filtered} micro-rain events (<{threshold_mm}mm) to 0.0mm.")
 
     return corrected_data
 
+
+def denormalize_targets(pred_array: np.ndarray, scaler) -> np.ndarray:
+    """
+    Handles dimension mismatch during inverse transformation.
+    The Scaler expects 9 features (Inputs), but the Model outputs 5 features (Targets).
+    We create a dummy matrix to satisfy the Scaler's API.
+    """
+    # Create a placeholder matrix (N_samples, 9_features)
+    dummy = np.zeros((pred_array.shape[0], scaler.n_features_in_))
+
+    # Fill the first 5 columns with our predictions
+    # (Assuming targets are the first 5 columns in FEATURE_COLS)
+    num_targets = pred_array.shape[1]
+    dummy[:, :num_targets] = pred_array
+
+    # Perform inverse transform
+    inversed_matrix = scaler.inverse_transform(dummy)
+
+    # Extract only the relevant columns back
+    return inversed_matrix[:, :num_targets]
+
+
+# -------------------------------------------------------------------------
+# MAIN EVALUATION PIPELINE
+# -------------------------------------------------------------------------
 def evaluate_model():
     print("==========================================")
     print("   STARTING MODEL EVALUATION (TEST SET)   ")
     print("==========================================")
 
-    # Load paths
+    # 1. Prerequisite Checks
     test_data_path = os.path.join(config.DATA_DIR, 'test', 'test.csv')
 
-    # Checks
     if not os.path.exists(config.MODEL_PATH):
-        print(f"Model not found at {config.MODEL_PATH}. Run training first.")
-        return
+        raise FileNotFoundError(f"Model artifact missing: {config.MODEL_PATH}")
     if not os.path.exists(config.SCALER_PATH):
-        print(f"Scaler not found at {config.SCALER_PATH}. Run preprocessing first.")
+        raise FileNotFoundError(f"Scaler artifact missing: {config.SCALER_PATH}")
+
+    # 2. Load Artifacts
+    print("Loading model and scaler...")
+    # We pass custom_objects explicitly to ensure robust loading
+    try:
+        model = load_model(config.MODEL_PATH, custom_objects={
+            'asymmetric_precipitation_loss': asymmetric_precipitation_loss
+        })
+    except Exception as e:
+        print(f"[CRITICAL] Model loading failed. Error: {e}")
         return
 
-    # Load artifacts
-    print("Loading model and scaler...")
-    model = load_model(config.MODEL_PATH)
     scaler = joblib.load(config.SCALER_PATH)
 
-    print("Loading test data...")
+    # 3. Load & Prepare Data
+    print(f"Loading test data from {test_data_path}...")
     df_test = pd.read_csv(test_data_path)
 
-    # Prepare data generator for test set
-    # I use the same sliding window
+    print("Initializing test generator...")
     gen = TimeSeriesGenerator(
         input_width=config.SEQ_LENGTH,
         label_width=config.PREDICT_HORIZON,
@@ -87,107 +164,91 @@ def evaluate_model():
     )
 
     X_test, y_test = gen.create_sequences(df_test)
-    print(f"Test samples generated: {X_test.shape}")
+    print(f"   -> Inference Batch Size: {X_test.shape[0]} samples")
 
-    # Run interface (prediction)
-    print("Running prediction on test set...")
+    # 4. Run Inference
+    print("Running inference on test set...")
     y_pred_scaled = model.predict(X_test, verbose=0)
 
-    # Denormalization & Post-Processing
-    print("Denormalize data...")
+    # 5. Denormalization & Post-Processing
+    print("Denormalizing and applying physics constraints...")
 
-    # Advanced Denormalization Logic for Asymmetric I/O
-    # I create a dummy matrix matching the scaler's expected shape (9 cols)
-    # and fill the target columns, then extract them back.
-
-    def denormalize_targets(pred_array):
-        # Create placeholder with correct shape (N, 9)
-        dummy = np.zeros((pred_array.shape[0], len(config.FEATURE_COLS)))
-        # Fill the physical columns (first 5)
-        physical_idx = len(config.TARGET_COLS)
-        dummy[:, :physical_idx] = pred_array
-        # Inverse transform
-        inversed = scaler.inverse_transform(dummy)
-        # Return only physical columns
-        return inversed[:, :physical_idx]
-
-    # Check if Scaler expects 9 cols but we have 5
+    # Handle scaler dimension mismatch safely
     if scaler.n_features_in_ != y_pred_scaled.shape[1]:
-        y_pred_real = denormalize_targets(y_pred_scaled)
-        y_true_real = denormalize_targets(y_test)
+        y_pred_real = denormalize_targets(y_pred_scaled, scaler)
+        y_true_real = denormalize_targets(y_test, scaler)
     else:
-        # Fallback if shapes match
         y_pred_real = scaler.inverse_transform(y_pred_scaled)
         y_true_real = scaler.inverse_transform(y_test)
 
-    # Apply physics constraints
-    print("Applying physics-informed post-preprocessing...")
-    y_pred_real = apply_physics_constraints(y_pred_real, config.TARGET_COLS)
+    # Apply the noise gate and non-negativity rules
+    y_pred_final = apply_physics_constraints(y_pred_real, config.TARGET_COLS)
 
-    # Metrics and plotting loop
+    # 6. Metrics Calculation & Reporting
     metrics_json = {}
     feature_names = config.TARGET_COLS
 
-    # Initialize plot (5 sublots, one for each feature)
+    # Setup visualization
+    limit = 1000  # Plot first 500 hours (~21 days)
     fig, axes = plt.subplots(len(feature_names), 1, figsize=(12, 20), sharex=True)
-    limit = 200 # I plot only the first 200 hours
 
-    print("\n" + "="*50)
-    print("   DETAILED PERFORMANCE REPORT")
+    print("\n" + "=" * 50)
+    print("   DETAILED PERFORMANCE REPORT (2024 Data)")
     print("=" * 50)
 
     for i, col_name in enumerate(feature_names):
-        # Extract data for this specific feature
-        true_vals = y_true_real[:, i]
-        pred_vals = y_pred_real[:, i]
+        # Slicing data for specific feature
+        truth = y_true_real[:, i]
+        pred = y_pred_final[:, i]
 
-        # Calculate metrics
-        mae = mean_absolute_error(true_vals, pred_vals)
-        rmse = np.sqrt(mean_squared_error(true_vals, pred_vals))
-        r2 = r2_score(true_vals, pred_vals)
+        # Core Metrics
+        mae = mean_absolute_error(truth, pred)
+        rmse = np.sqrt(mean_squared_error(truth, pred))
+        r2 = r2_score(truth, pred)
 
-        # Save to dict
+        # Log metrics
         metrics_json[f"{col_name}_mae"] = float(mae)
         metrics_json[f"{col_name}_rmse"] = float(rmse)
         metrics_json[f"{col_name}_r2"] = float(r2)
 
+        # Print Report
         print(f"\n   PARAMETER: {col_name.upper()}")
         print("-" * 48)
-        print(f"   RESULTS (Test Set 2024 - {col_name})")
-        print("-" * 48)
-        print(f"   MAE  (Eroare Medie Absoluta): {mae:.4f}")
-        print(f"   RMSE (Eroare Patratica Medie): {rmse:.4f}")
-        print(f"   R2 Score (Potrivire): {r2:.4f}")
-        print("-" * 48)
+        print(f"   MAE  (Mean Absolute Error):  {mae:.4f}")
+        print(f"   RMSE (Root Mean Squared):    {rmse:.4f}")
+        print(f"   R2   (Coefficient of Det.):  {r2:.4f}")
 
-        # Plotting
+        # Plotting Subplot
         ax = axes[i]
-        ax.plot(true_vals[:limit], label='Real (Actual)', color='blue')
-        ax.plot(pred_vals[:limit], label='AI (Predicted)', color='red', linestyle='--')
+        ax.plot(truth[:limit], label='Real (Ground Truth)', color='blue', linewidth=1.5)
+        ax.plot(pred[:limit], label='AI Prediction', color='red', linestyle='--', linewidth=1.5)
 
+        # Add zero-line for precipitation for clarity
         if col_name == 'precipitation':
-            ax.axhline(0, color='black', linewidth=0.5, alpha=0.5)
+            ax.axhline(0, color='black', linewidth=0.5, alpha=0.3)
 
         ax.set_ylabel(f'{col_name}')
-        ax.set_title(f'Prognoza: {col_name.capitalize()}')
+        ax.set_title(f'Forecast Analysis: {col_name.capitalize()}')
         ax.legend(loc='upper right')
         ax.grid(True, alpha=0.3)
 
-    # Finalize plot
-    axes[-1].set_xlabel('Timp (Ore)')
+    # 7. Finalize Artifacts
+    axes[-1].set_xlabel('Time Steps (Hours)')
     plt.tight_layout()
 
-    # Save plot
+    # Save Plots
     plot_path = os.path.join(config.BASE_DIR, 'docs', 'prediction_plot.png')
+    os.makedirs(os.path.dirname(plot_path), exist_ok=True)
     plt.savefig(plot_path)
-    print(f"\nCombined plot saved to: {plot_path}")
+    print(f"\n[OUTPUT] Comparative plot saved to: {plot_path}")
 
-    # Save JSON metrics
-    results_dir = os.path.join(config.BASE_DIR, 'results')
-    os.makedirs(results_dir, exist_ok=True)
-    with open(os.path.join(results_dir, 'test_metrics.json'), 'w') as f:
+    # Save Metrics
+    metrics_path = os.path.join(config.BASE_DIR, 'results', 'test_metrics.json')
+    os.makedirs(os.path.dirname(metrics_path), exist_ok=True)
+    with open(metrics_path, 'w') as f:
         json.dump(metrics_json, f, indent=4)
-    print(f"Metrics saved to results/test_metrics.json")
+    print(f"[OUTPUT] Metrics exported to: {metrics_path}")
+
 
 if __name__ == "__main__":
     evaluate_model()

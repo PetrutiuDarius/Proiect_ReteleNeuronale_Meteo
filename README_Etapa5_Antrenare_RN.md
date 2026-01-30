@@ -115,7 +115,7 @@ Pentru a crește robustețea modelului în mediu industrial/real, am aplicat teh
 Graficul de mai jos ilustrează evoluția erorii (MSE) pe seturile de antrenare și validare:
 
 
-![Loss Curve](docs/loss_curve_5_output_parameters.png)
+![Loss Curve](docs/loss_curve_all_versions/loss_curve_5_input_parameters_V1.png)
 
 *Analiză:* Convergența curbelor (Train vs Validation) demonstrează că modelul a generalizat corect regulile fizice, fără a suferi de overfitting major (distanța mică între curbe).
 
@@ -145,7 +145,7 @@ Analizând rezultatele, am identificat comportamente specifice senzorilor și me
 Graficul de mai jos arată suprapunerea predicțiilor (roșu) peste datele reale (albastru) pentru un eșantion din setul de test.
 
 
-![Prediction Plot](docs/prediction_plot_5_output_parameters.png)
+![Prediction Plot](docs/prediction_plot_all_versions/prediction_plot_5_input_parameters_V1.png)
 
 ---
 
@@ -154,7 +154,7 @@ Graficul de mai jos arată suprapunerea predicțiilor (roșu) peste datele reale
 Ca pas final al Etapei 5, modelul antrenat a fost integrat complet în ecosistemul software.
 
 ### 5.1 Status integrare
-* [x] **Salvare model:** Modelul final a fost exportat în formatul standard `models/trained_model_5_input_parameters.keras`.
+* [x] **Salvare model:** Modelul final a fost exportat în formatul standard `models/trained_model_5_input_parameters_V1.keras`.
 * [x] **Backend UI:** Dashboard-ul (`src/app/dashboard.py`) încarcă acum acest fișier la pornire, înlocuind modelul dummy din etapa anterioară.
 * [x] **Inferență reală:** Aplicația preia datele de intrare, le normalizează folosind scaler-ul salvat și afișează prognoza denormalizată (în unități reale: °C, hPa).
 
@@ -350,12 +350,12 @@ Proiect_ReteleNeuronale_Meteo/
 │   ├── eda_correlation.png        # Matricea de corelație
 │   ├── eda_distribution.png       # Distribuția datelor
 │   ├── eda_outliers.png           # Identificarea outlier-ilor
-│   ├── loss_curve.png             # Graficul de antrenare a modelului
-│   ├── prediction_plot.png        # Graficele de predicție pentru fiecare parametru
+│   ├── loss_curve_5_input_parameters_v1.png  # Graficul de antrenare a modelului
+│   ├── prediction_plot_5_input_parameters_v1.png  # Graficele de predicție pentru fiecare parametru
 │   ├── state-machine-RN.drawio    # Diagrama state-machine a sistemului (fișier .drawio)
 │   └── state-machine-RN.png       # Diagrama state-machine a sistemului 
 ├── models/
-│   ├── trained_model.keras        # Model antrenat corespunzător
+│   ├── trained_model_5_input_parameters_V1.keras  # Model antrenat corespunzător
 │   └── untrained_model.keras      # Model antrenat doar pentru demo (etapa 4)
 ├── results/
 │   ├── test_metrics.json          # Statisticile modelului

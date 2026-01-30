@@ -58,18 +58,20 @@ def split_and_normalize_dataset() -> None:
             df_full['timestamp'] = pd.to_datetime(df_full['timestamp'], errors='coerce')
             df_full.set_index('timestamp', inplace=True, drop=False)
 
+            # We apply log1p (log(1+x)) to handle the skewness of rain data.
+            # This makes the distribution more Gaussian-like, helping the LSTM.
+            if 'precipitation' in df_full.columns:
+                print("   -> [Experiment] Applying Log-Transform (np.log1p) to Precipitation...")
+                df_full['precipitation'] = np.log1p(df_full['precipitation'])
+
         except Exception as e:
             print(f"Failed to read Hybrid CSV: {e}")
             sys.exit(1)
 
     else:
         print("[MODE] Loading RAW dataset (Real Data ONLY) via Data Loader...")
-        # AICI E SCHIMBAREA CHEIE: Folosim functia existenta care stie sa redenumeasca coloanele!
         try:
             df_full = load_raw_data()
-
-            # load_raw_data returneaza index-ul setat corect ca datetime,
-            # dar avem nevoie de coloana 'timestamp' explicita pentru logica de mai jos
             df_full.reset_index(inplace=True)
             df_full['timestamp'] = pd.to_datetime(df_full['timestamp'], errors='coerce')
             df_full.set_index('timestamp', inplace=True, drop=False)

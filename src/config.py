@@ -29,7 +29,7 @@ HYBRID_DATA_PATH = os.path.join(DATA_DIR, 'generated', 'hybrid_dataset.csv')
 
 # Model Artifacts
 SCALER_PATH = os.path.join(CONFIG_DIR, 'preprocessing_params.pkl')
-MODEL_PATH = os.path.join(BASE_DIR, 'models', 'trained_model.keras')
+MODEL_PATH = os.path.join(BASE_DIR, 'models', 'trained_model_log_transform_V5.keras')
 
 # =============================================================================
 #  LOCATION & API SETTINGS
@@ -128,7 +128,7 @@ TARGET_COLS = [
 #  TRAINING HYPERPARAMETERS
 # =============================================================================
 BATCH_SIZE = 64        # Number of samples processed before updating weights
-EPOCHS = 50            # NUmber of complete passes through the dataset
+EPOCHS = 50            # Number of complete passes through the dataset
 LEARNING_RATE = 0.001  # Step size for the optimizer
 PATIENCE = 5           # Early stopping patience (stop if no improvement after 5 epochs)
 

@@ -7,6 +7,7 @@ import joblib
 import os
 import requests
 import sys
+import tensorflow as tf
 from datetime import datetime, timedelta
 from tensorflow.keras.models import load_model
 
@@ -39,6 +40,25 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
+# ------------------------------------------------------------------
+# CUSTOM LOSS DEFINITION (REQUIRED FOR LOADING MODEL)
+# ------------------------------------------------------------------
+@tf.keras.utils.register_keras_serializable()
+def asymmetric_precipitation_loss(y_true, y_pred):
+    squared_error = tf.square(y_true - y_pred)
+    overestimation_mask = tf.cast(tf.greater(y_pred, y_true), tf.float32)
+
+    # I assume standard index 4 for rain (based on config)
+    rain_col_idx = 4
+    feature_count = 5
+    rain_column_mask = tf.one_hot(indices=[rain_col_idx] * tf.shape(y_true)[0], depth=feature_count)
+    rain_column_mask = tf.reshape(rain_column_mask, tf.shape(y_true))
+
+    penalty_magnitude = 20.0  # Must match training config
+    penalty_factor = 1.0 + (overestimation_mask * rain_column_mask * penalty_magnitude)
+    return tf.reduce_mean(squared_error * penalty_factor)
+
+
 # --- UTILS ---
 @st.cache_resource
 def load_ai_core():
@@ -46,7 +66,17 @@ def load_ai_core():
     if not os.path.exists(config.MODEL_PATH) or not os.path.exists(config.SCALER_PATH):
         st.error("🚨 Modelul sau Scalerul lipsesc! Rulează 'main.py' mai întâi.")
         st.stop()
-    model = load_model(config.MODEL_PATH)
+
+    # Load model with custom objects dictionary
+    try:
+        model = load_model(
+            config.MODEL_PATH,
+            custom_objects={'asymmetric_precipitation_loss': asymmetric_precipitation_loss}
+        )
+    except Exception as e:
+        st.error(f"Eroare la incarcarea modelului: {e}")
+        st.stop()
+
     scaler = joblib.load(config.SCALER_PATH)
     return model, scaler
 
@@ -114,10 +144,14 @@ def forecast_next_24h(model, scaler, initial_sequence_24h):
         # 2. Predict next step (Physical only, 5 cols)
         pred_scaled_5 = model.predict(input_tensor, verbose=0)[0]
 
-        # 3. Denormalize
+        # 3. Denormalize logic
+        # Create dummy matrix to match Scaler shape (9 cols)
         dummy = np.zeros((1, 9))
         dummy[:, :5] = pred_scaled_5
         pred_real_5 = scaler.inverse_transform(dummy)[0, :5]
+
+        # Since model was trained on log1p(rain), I must apply expm1
+        pred_real_5[4] = np.expm1(pred_real_5[4])
 
         # Physics Constraints & Logic
         temp = pred_real_5[0]
@@ -125,7 +159,9 @@ def forecast_next_24h(model, scaler, initial_sequence_24h):
         pres = pred_real_5[2]
         wind = max(pred_real_5[3], 0)
         rain = max(pred_real_5[4], 0)
-        if rain < 0.1: rain = 0.0  # Noise gate
+
+        # Noise gate
+        if rain < 0.1: rain = 0.0
 
         # Snow Logic
         is_snow = (rain > 0) and (temp <= config.SNOW_TEMP_THRESHOLD)
@@ -144,8 +180,15 @@ def forecast_next_24h(model, scaler, initial_sequence_24h):
         })
 
         # 4. Update Sequence for next step (Autoregression)
+        # I need to feed the scaled prediction back into the loop
+        # Note: I must re-log transform the rain before scaling back,
+        # because the Scaler was fitted on log-transformed data!
+
+        pred_for_feedback = pred_real_5.copy()
+        pred_for_feedback[4] = np.log1p(pred_for_feedback[4])  # Apply Log1p again for feedback loop
+
         new_time_feats = calculate_time_features(next_time)
-        row_real_9 = np.concatenate([pred_real_5, new_time_feats])
+        row_real_9 = np.concatenate([pred_for_feedback, new_time_feats])
         row_scaled_9 = scaler.transform([row_real_9])[0]
 
         current_seq = np.vstack([current_seq[1:], row_scaled_9])
@@ -173,7 +216,7 @@ def analyze_alerts(df):
     elif max_wind > 12.0:
         alerts.append(("💨 VÂNT PUTERNIC", f"Vânt susținut de {max_wind} m/s."))
 
-    if min_pres < 990:
+    if min_pres < 900:
         alerts.append(("📉 PRESIUNE CRITICĂ", "Posibilă ciclogeneză (furtună majoră)."))
 
     if max_rain > 10.0:
@@ -314,6 +357,10 @@ def page_romania_live(model, scaler):
             # Combine Physical + Time features (9 cols)
             full_input = pd.concat([hist_df[config.TARGET_COLS], time_df], axis=1)
 
+            # Apply Log-Transform to Rain column BEFORE scaling (because Scaler was fitted on logs)
+            if 'precipitation' in full_input.columns:
+                full_input['precipitation'] = np.log1p(full_input['precipitation'])
+
             # Scale
             input_scaled = scaler.transform(full_input)
 
@@ -346,13 +393,15 @@ def page_manual_sim(model, scaler):
     if submitted:
         with st.spinner("Se rulează simularea..."):
             # 1. Create Fake History (Last 24h constant based on input)
-            # This simulates a "stable day" suddenly changing, or consistently bad weather
             current_dt = datetime.combine(sim_date, sim_time)
             timestamps = [current_dt - timedelta(hours=i) for i in range(24)][::-1]
 
             # Feature Vectors
             t_feats_list = [calculate_time_features(ts) for ts in timestamps]
-            phy_feats = [temp, hum, pres, wind, rain]
+
+            # Input rain must be Log-Transformed before scaling
+            rain_log = np.log1p(rain)
+            phy_feats = [temp, hum, pres, wind, rain_log]
 
             # Construct Sequence (24, 9)
             seq_data = []
@@ -368,6 +417,7 @@ def page_manual_sim(model, scaler):
             forecast_df = forecast_next_24h(model, scaler, input_scaled)
 
             # 3. Create a fake "Current Conditions" DF for the display function
+            # Here I show REAL rain (not log) for user display
             current_cond = pd.DataFrame([{
                 'temperature': temp, 'humidity': hum, 'pressure': pres,
                 'wind_speed': wind, 'precipitation': rain

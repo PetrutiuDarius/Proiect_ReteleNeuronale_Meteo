@@ -181,6 +181,15 @@ def evaluate_model():
         y_pred_real = scaler.inverse_transform(y_pred_scaled)
         y_true_real = scaler.inverse_transform(y_test)
 
+    # We must revert the log1p operation to get back to real 'mm'.
+    # Precipitation is at index 4.
+    print("   -> [Experiment] Reverting Log-Transform (np.expm1)...")
+    rain_idx = 4
+
+    # Apply expm1 to both Truth and Prediction columns for rain
+    y_pred_real[:, rain_idx] = np.expm1(y_pred_real[:, rain_idx])
+    y_true_real[:, rain_idx] = np.expm1(y_true_real[:, rain_idx])
+
     # Apply the noise gate and non-negativity rules
     y_pred_final = apply_physics_constraints(y_pred_real, config.TARGET_COLS)
 

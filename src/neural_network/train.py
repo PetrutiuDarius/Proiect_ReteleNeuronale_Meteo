@@ -71,7 +71,7 @@ def asymmetric_precipitation_loss(y_true, y_pred):
     rain_column_mask = tf.reshape(rain_column_mask, tf.shape(y_true))
 
     # 4. Calculate Penalty Factor
-    # If it is the Rain Column AND it is Over-estimated -> Apply Penalty (e.g., 20x)
+    # If it is the Rain Column AND it is Overestimated -> Apply Penalty (e.g., 20x)
     # Otherwise -> Penalty is 1.0 (Standard MSE behavior)
     penalty_magnitude = 20.0
     penalty_factor = 1.0 + (overestimation_mask * rain_column_mask * penalty_magnitude)

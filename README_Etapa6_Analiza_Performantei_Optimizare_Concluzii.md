@@ -7,6 +7,16 @@
 **Link Repository GitHub:** https://github.com/PetrutiuDarius/Proiect_ReteleNeuronale_Meteo.git  
 **Data predării:** 15.01.2026  
 
+
+Acum hai sa ne apucam de readme-ul 6. O sa il facem capitol cu capitol totusi. Iti dau eu ce vrea profesorul de la noi.
+
+Vreau sa il faci profesional, sa respecti exact despre ce vrea profesorul sa zicem noi acolo, dar fara sa mai lasi celelalte optini pe care le da el, sa vorbim doar despre proiectul nostru!!! Trebuie strict facut pentru proiectul nostru.
+
+Te rog sa le fac in format .md (markdown) pentru a putea da copy paste.
+
+Incepem cu urmatorul capitol:
+
+
 ---
 
 ## Scopul Etapei 6
@@ -124,26 +134,59 @@ Proiect_ReteleNeuronale_Meteo/
 │   └── validation/                # Set de validare (2024 luni impare)
 │       └── validation.csv 
 ├── docs/
+│   ├── loss_curve_all_versions/   # Graficele de la antrenarea modelului pentru fiecare versiune
+│   │   ├── loss_curve_5_input_parameters_V1.png
+│   │   ├── loss_curve_9_input_parameters_V2.png
+│   │   ├── loss_curve_128_batch_size_V5_experimental.png
+│   │   ├── loss_curve_asymmetric_loss_V4.png
+│   │   ├── loss_curve_log_transform_V5.png
+│   │   ├── loss_curve_raw_data_only_V2_experimental.png
+│   │   └── loss_curve_weighted_loss_V3.png
+│   ├── prediction_plot_all_versions/  # Graficele de predicție/parametru pentru fiecare versiune
+│   │   ├── prediction_plot_5_input_parameters_V1.png
+│   │   ├── prediction_plot_9_input_parameters_V2.png
+│   │   ├── prediction_plot_128_batch_size_V5_experimental.png
+│   │   ├── prediction_plot_asymmetric_loss_V4.png
+│   │   ├── prediction_plot_log_transform_V5.png
+│   │   ├── prediction_plot_raw_data_only_V2_experimental.png
+│   │   └── prediction_plot_weighted_loss_V3.png
 │   ├── screenshots/               # Fișier pentru capturile de ecran ale UI-ului
 │   │   ├── dashboard_liveESP.png
 │   │   ├── dashboard_romania_1.png
 │   │   ├── dashboard_romania_1.png
 │   │   ├── dashboard_romania_1.png
 │   │   └── dashboard_simulation.png
-│   ├── distribution_comparison.png # Distribuția temperaturilor în setul de date hibrid (etapa 4)
-│   ├── eda_correlation.png        # Matricea de corelație
-│   ├── eda_distribution.png       # Distribuția datelor
-│   ├── eda_outliers.png           # Identificarea outlier-ilor
-│   ├── loss_curve.png             # Graficul de antrenare a modelului
-│   ├── prediction_plot.png        # Graficele de predicție pentru fiecare parametru
-│   ├── state-machine-RN.drawio    # Diagrama state-machine a sistemului (fișier .drawio)
-│   └── state-machine-RN.png       # Diagrama state-machine a sistemului 
-├── models/
-│   ├── trained_model.keras        # Model antrenat corespunzător
+│   ├── distribution_comparison.png  # Distribuția temperaturilor în setul de date hibrid (etapa 4)
+│   ├── eda_correlation.png        # Matricea de corelație (etapa 3)
+│   ├── eda_distribution.png       # Distribuția datelor (etapa 3)
+│   ├── eda_outliers.png           # Identificarea outlier-ilor (etapa 3)
+│   ├── state-machine-RN.drawio    # Diagrama state-machine a sistemului (fișier .drawio) (etapa 4)
+│   └── state-machine-RN.png       # Diagrama state-machine a sistemului (etapa 4)
+├── models/                        # Modele antrenat corespunzător fiecărei etape
+│   ├── trained_model_5_input_parameters_V1.keras
+│   ├── trained_model_9_input_parameters_V2.keras
+│   ├── trained_model_128_batch_size_V5_experimental.keras
+│   ├── trained_model_asymmetric_loss_V4.keras
+│   ├── trained_model_log_transform_V5.keras
+│   ├── trained_model_raw_data_only_V2_experimental.keras
+│   ├── trained_model_weighted_loss_V3.keras
 │   └── untrained_model.keras      # Model antrenat doar pentru demo (etapa 4)
 ├── results/
-│   ├── test_metrics.json          # Statisticile modelului
-│   └── training_history.json      # Parametrii antrenării
+│   ├── test_metrics_all_versions/  # Statisticile de test a diferitelor versiuni de modele
+│   │   ├── test_metrics_5_input_parameters_V1.json
+│   │   ├── test_metrics_9_input_parameters_V2.json
+│   │   ├── test_metrics_128_batch_size_V5_experimental.json
+│   │   ├── test_metrics_asymmetric_loss_V4.json
+│   │   ├── test_metrics_log_transform_V5.json
+│   │   ├── test_metrics_raw_data_only_V2_experimental.json
+│   │   └── test_metrics_weighted_loss_V3.json
+│   └── training_history_all_versions/  # Parametrii antrenării diferitelor versiuni de modele
+│       ├── training_history_9_input_parameters_V2.csv
+│       ├── training_history_128_batch_size_V5_experimental.csv
+│       ├── training_history_asymmetric_loss_V4.csv
+│       ├── training_history_log_transform_V5.csv
+│       ├── training_history_raw_data_only_V2_experimental.csv
+│       └── training_history_weighted_loss_V3.csv
 ├── src/
 │   ├── app/                       # Script UI
 │   │   └── dashboard.py
@@ -170,6 +213,7 @@ Proiect_ReteleNeuronale_Meteo/
 ├── README.md
 ├── README_Etapa3_Analiza_Date.md
 ├── README_Etapa4_Arhitectura_SIA.md
-├── README_Etapa5_Antrenare_RN.md  # Acest fișier
+├── README_Etapa5_Antrenare_RN.md
+├── README_Etapa6_Analiza_Performantei_Optimizare_Concluzii.md  # Acest fișier
 └── requirements.txt               # Dependențe Python
 ```

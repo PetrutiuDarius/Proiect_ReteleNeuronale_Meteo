@@ -1,0 +1,17 @@
+{
+    "temperature_mae": 0.9023837576318728,
+    "temperature_rmse": 1.1981819117653083,
+    "temperature_r2": 0.9843786277448221,
+    "humidity_mae": 4.037440033824056,
+    "humidity_rmse": 5.500187115034064,
+    "humidity_r2": 0.9306146913159237,
+    "pressure_mae": 0.6931671045127976,
+    "pressure_rmse": 0.9469166801609271,
+    "pressure_r2": 0.9841533112478025,
+    "wind_speed_mae": 0.6330928932503499,
+    "wind_speed_rmse": 0.8409238491055141,
+    "wind_speed_r2": 0.6787792620544715,
+    "precipitation_mae": 0.04774313284430886,
+    "precipitation_rmse": 0.24061654367137117,
+    "precipitation_r2": 0.2767394145078229
+}

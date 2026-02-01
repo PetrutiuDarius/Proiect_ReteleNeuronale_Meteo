@@ -14,11 +14,14 @@ import os
 import sys
 import pandas as pd
 import numpy as np
+from io import StringIO
 from src import config
+
 
 def get_api_url() -> str:
     """
     Constructs the dynamic API endpoint based on the configuration settings.
+    Used for the main pipeline (static location).
     """
     return config.API_URL_TEMPLATE.format(
         lat=config.LOCATION['lat'],
@@ -27,6 +30,7 @@ def get_api_url() -> str:
         end=config.API_END_DATE,
         timezone=config.LOCATION['timezone'].replace("/", "%2F")
     )
+
 
 def download_data() -> None:
     """
@@ -55,6 +59,7 @@ def download_data() -> None:
         print(f"API connection failed: {e}")
         sys.exit(1)
 
+
 def add_time_features(df: pd.DataFrame) -> pd.DataFrame:
     """
     Performs Temporal Feature Engineering.
@@ -73,7 +78,14 @@ def add_time_features(df: pd.DataFrame) -> pd.DataFrame:
     year = (365.2425) * day
 
     # Convert timestamp to seconds
-    timestamp_s = df.index.map(pd.Timestamp.timestamp)
+    # Check if index is datetime, otherwise convert
+    if not isinstance(df.index, pd.DatetimeIndex):
+        if 'timestamp' in df.columns:
+            timestamp_s = pd.to_datetime(df['timestamp']).map(pd.Timestamp.timestamp)
+        else:
+            raise ValueError("DataFrame must have a DatetimeIndex or a 'timestamp' column.")
+    else:
+        timestamp_s = df.index.map(pd.Timestamp.timestamp)
 
     # 1. Daily Cycle (Morning/Night)
     df['day_sin'] = np.sin(timestamp_s * (2 * np.pi / day))
@@ -85,15 +97,11 @@ def add_time_features(df: pd.DataFrame) -> pd.DataFrame:
 
     return df
 
+
 def load_raw_data() -> pd.DataFrame:
     """
     ETL Process: Extract, Transform, Load.
-
-    1. Reads raw CSV.
-    2. Maps column names to internal schema (including Precipitation).
-    3. Sets Datetime Index.
-    4. Computes Time Embeddings (Sin/Cos).
-    5. Returns a DataFrame with exactly 9 Features + 1 Flag.
+    Used for the main pipeline (reads from CSV).
     """
     try:
         # Open-Meteo CSVs usually have 2 lines of metadata before the header
@@ -117,8 +125,7 @@ def load_raw_data() -> pd.DataFrame:
         df.set_index('timestamp', inplace=True)
 
         # Validation: Check if all 5 physical parameters exist
-        # We check the first 5 elements of FEATURE_COLS which correspond to physical data
-        physical_cols = config.TARGET_COLS  # ['temperature', 'humidity', 'pressure', 'wind_speed', 'precipitation']
+        physical_cols = config.TARGET_COLS
         for req in physical_cols:
             if req not in df.columns:
                 raise ValueError(f"Missing required physical column '{req}' in raw data.")
@@ -138,3 +145,51 @@ def load_raw_data() -> pd.DataFrame:
     except Exception as e:
         print(f"Data loading pipeline failed: {e}")
         sys.exit(1)
+
+
+# --- NEW FUNCTION FOR ADAPTIVE TRAINING ---
+def fetch_open_meteo_history(lat, lon, start_date, end_date):
+    """
+    Downloads data for a specific location dynamically and returns a DataFrame.
+    Does NOT save to the main raw file to avoid overwriting the thesis dataset.
+    """
+    # 1. Build Dynamic URL
+    url = config.API_URL_TEMPLATE.format(
+        lat=lat,
+        lon=lon,
+        start=start_date,
+        end=end_date,
+        timezone="auto"  # Auto-detect timezone for the new location
+    )
+
+    print(f"Fetching adaptive data from: {url}")
+
+    try:
+        response = requests.get(url, timeout=30)
+        response.raise_for_status()
+
+        # 2. Parse CSV directly from memory string
+        csv_data = StringIO(response.text)
+        df = pd.read_csv(csv_data, skiprows=2)
+
+        # 3. Standardize Columns (Reuse logic)
+        rename_map = {
+            'time': 'timestamp',
+            'temperature_2m (°C)': 'temperature',
+            'relative_humidity_2m (%)': 'humidity',
+            'surface_pressure (hPa)': 'pressure',
+            'wind_speed_10m (m/s)': 'wind_speed',
+            'precipitation (mm)': 'precipitation'
+        }
+        df.rename(columns=rename_map, inplace=True)
+
+        # 4. Datetime Conversion
+        df['timestamp'] = pd.to_datetime(df['timestamp'])
+
+        # We do NOT set index here yet, to keep it flexible for further processing
+
+        return df
+
+    except Exception as e:
+        print(f"Error fetching adaptive data: {e}")
+        return None

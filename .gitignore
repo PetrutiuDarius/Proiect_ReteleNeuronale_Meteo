@@ -2,6 +2,7 @@
 .venv/
 venv/
 ENV/
+.env
 
 # --- Python Cache ---
 __pycache__/
@@ -12,11 +13,11 @@ __pycache__/
 .vscode/
 
 # --- Data Assets ---
+data/generated/
 data/raw/
-data/processed/
+data/test/
 data/train/
 data/validation/
-data/test/
 *.csv
 
 # --- OS Junk ---

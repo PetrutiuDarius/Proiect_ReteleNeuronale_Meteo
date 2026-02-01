@@ -5,39 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9f34c434-bcbe-4f42-8c2a-f9209ac9dc18" name="Changes" comment="Etapa 5&#10;Realizarea documentatiei initiale pentru etapa 5 cu obiectivele etapei.">
+      <change afterPath="$PROJECT_DIR$/src/app/adaptive_training.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/azure_listener.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README_Etapa5_Antrenare_RN.md" beforeDir="false" afterPath="$PROJECT_DIR$/README_Etapa5_Antrenare_RN.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README_Etapa6_Analiza_Performantei_Optimizare_Concluzii.md" beforeDir="false" afterPath="$PROJECT_DIR$/README_Etapa6_Analiza_Performantei_Optimizare_Concluzii.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/preprocessing_params.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/config/preprocessing_params.pkl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/loss_curve_5_input_parameters.png" beforeDir="false" afterPath="$PROJECT_DIR$/docs/loss_curve_all_versions/loss_curve_5_input_parameters_V1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/loss_curve_9_input_parameters.png" beforeDir="false" afterPath="$PROJECT_DIR$/docs/loss_curve_all_versions/loss_curve_9_input_parameters_V2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/loss_curve_asymmetric_loss.png" beforeDir="false" afterPath="$PROJECT_DIR$/docs/loss_curve_all_versions/loss_curve_asymmetric_loss_V4.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/loss_curve_raw_data_only.png" beforeDir="false" afterPath="$PROJECT_DIR$/docs/loss_curve_all_versions/loss_curve_raw_data_only_V2_experimental.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/loss_curve_weighted_loss.png" beforeDir="false" afterPath="$PROJECT_DIR$/docs/loss_curve_all_versions/loss_curve_weighted_loss_V3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/prediction_plot_5_input_parameters.png" beforeDir="false" afterPath="$PROJECT_DIR$/docs/prediction_plot_all_versions/prediction_plot_5_input_parameters_V1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/prediction_plot_9_input_parameters.png" beforeDir="false" afterPath="$PROJECT_DIR$/docs/prediction_plot_all_versions/prediction_plot_9_input_parameters_V2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/prediction_plot_asymmetric_loss.png" beforeDir="false" afterPath="$PROJECT_DIR$/docs/prediction_plot_all_versions/prediction_plot_asymmetric_loss_V4.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/prediction_plot_raw_data_only.png" beforeDir="false" afterPath="$PROJECT_DIR$/docs/prediction_plot_all_versions/prediction_plot_raw_data_only_V2_experimental.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/prediction_plot_weighted_loss.png" beforeDir="false" afterPath="$PROJECT_DIR$/docs/prediction_plot_all_versions/prediction_plot_weighted_loss_V3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/trained_model_5_input_parameters.keras" beforeDir="false" afterPath="$PROJECT_DIR$/models/trained_model_5_input_parameters_V1.keras" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/trained_model_9_input_parameters.keras" beforeDir="false" afterPath="$PROJECT_DIR$/models/trained_model_9_input_parameters_V2.keras" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/trained_model_asymmetric_loss.keras" beforeDir="false" afterPath="$PROJECT_DIR$/models/trained_model_asymmetric_loss_V4.keras" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/trained_model_raw_data_only.keras" beforeDir="false" afterPath="$PROJECT_DIR$/models/trained_model_raw_data_only_V2_experimental.keras" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/trained_model_weighted_loss.keras" beforeDir="false" afterPath="$PROJECT_DIR$/models/trained_model_weighted_loss_V3.keras" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/results/test_metrics_5_input_parameters.json" beforeDir="false" afterPath="$PROJECT_DIR$/results/test_metrics_all_versions/test_metrics_5_input_parameters_V1.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/results/test_metrics_9_input_parameters.json" beforeDir="false" afterPath="$PROJECT_DIR$/results/test_metrics_all_versions/test_metrics_9_input_parameters_V2.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/results/test_metrics_asymmetric_loss.json" beforeDir="false" afterPath="$PROJECT_DIR$/results/test_metrics_all_versions/test_metrics_asymmetric_loss_V4.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/results/test_metrics_raw_data_only.json" beforeDir="false" afterPath="$PROJECT_DIR$/results/test_metrics_all_versions/test_metrics_raw_data_only_V2_experimental.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/results/test_metrics_weighted_loss.json" beforeDir="false" afterPath="$PROJECT_DIR$/results/test_metrics_all_versions/test_metrics_weighted_loss_V3.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/results/training_history_9_input_parameters.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/results/training_history_asymmetric_loss.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/results/training_history_raw_data_only.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/results/training_history_weighted_loss.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/loss_curve_all_versions/loss_curve_log_transform_V5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/prediction_plot_all_versions/prediction_plot_log_transform_V5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/trained_model_log_transform_V5.keras" beforeDir="false" afterPath="$PROJECT_DIR$/models/trained_model_log_transform_V5.keras" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/test_metrics_all_versions/test_metrics_log_transform_V5.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/training_history_all_versions/training_history_log_transform_V5.csv" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/dashboard.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/neural_network/evaluate.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/neural_network/evaluate.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/neural_network/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/neural_network/train.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/preprocessing/split_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/preprocessing/split_data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data_acquisition/data_loader.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/data_acquisition/data_loader.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,7 +25,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="82" />
+    <option name="cachedIndexableFilesCount" value="89" />
     <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
   </component>
   <component name="FileTemplateManagerImpl">
@@ -109,14 +89,16 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\dariu\Desktop\Retele Neuronale - RN\Proiect\Proiect_ReteleNeuronale_Meteo\docs" />
+      <recent name="C:\Users\dariu\Desktop\Retele Neuronale - RN\Proiect\Proiect_ReteleNeuronale_Meteo\models" />
+      <recent name="C:\Users\dariu\Desktop\Retele Neuronale - RN\Proiect\Proiect_ReteleNeuronale_Meteo\results" />
       <recent name="C:\Users\dariu\Desktop\Retele Neuronale - RN\Proiect\Proiect_ReteleNeuronale_Meteo" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\dariu\Desktop\Retele Neuronale - RN\Proiect\Proiect_ReteleNeuronale_Meteo\docs\loss_curve_all_versions" />
+      <recent name="C:\Users\dariu\Desktop\Retele Neuronale - RN\Proiect\Proiect_ReteleNeuronale_Meteo\docs\prediction_plot_all_versions" />
       <recent name="C:\Users\dariu\Desktop\Retele Neuronale - RN\Proiect\Proiect_ReteleNeuronale_Meteo\results\training_history_all_versions" />
       <recent name="C:\Users\dariu\Desktop\Retele Neuronale - RN\Proiect\Proiect_ReteleNeuronale_Meteo\results\test_metrics_all_versions" />
       <recent name="C:\Users\dariu\Desktop\Retele Neuronale - RN\Proiect\Proiect_ReteleNeuronale_Meteo\docs\prediction_plot_different_versions" />
-      <recent name="C:\Users\dariu\Desktop\Retele Neuronale - RN\Proiect\Proiect_ReteleNeuronale_Meteo\docs\loss_curve_different_versions" />
-      <recent name="C:\Users\dariu\Desktop\Retele Neuronale - RN\Proiect\Proiect_ReteleNeuronale_Meteo\docs\screenshots" />
     </key>
   </component>
   <component name="RunManager" selected="Python.evaluate">
@@ -282,7 +264,10 @@
       <workItem from="1769102403760" duration="6610000" />
       <workItem from="1769246587569" duration="12328000" />
       <workItem from="1769509523850" duration="21880000" />
-      <workItem from="1769765888289" duration="20224000" />
+      <workItem from="1769765888289" duration="31140000" />
+      <workItem from="1769894846580" duration="1801000" />
+      <workItem from="1769896785076" duration="1166000" />
+      <workItem from="1769942442651" duration="17806000" />
     </task>
     <task id="LOCAL-00001" summary="Am modificat structurarea datelor de validate si de test.">
       <option name="closed" value="true" />

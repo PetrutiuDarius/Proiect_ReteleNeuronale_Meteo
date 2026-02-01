@@ -1,0 +1,96 @@
+{
+    "deviceId": "ESP32_Meteo",
+    "lat": 44.447,
+    "lon": 26.0185,
+    "history": [
+        {
+            "timestamp": "2026-02-01T11:20:03Z",
+            "temperature": 24.58,
+            "humidity": 22.9541,
+            "pressure": 1008.544,
+            "wind_speed": 18.9,
+            "precipitation": 0
+        },
+        {
+            "timestamp": "2026-02-01T12:20:05Z",
+            "temperature": 25.07,
+            "humidity": 29.37598,
+            "pressure": 1008.192,
+            "wind_speed": 19.2,
+            "precipitation": 0
+        },
+        {
+            "timestamp": "2026-02-01T13:20:07Z",
+            "temperature": 23.5,
+            "humidity": 20.23633,
+            "pressure": 1007.305,
+            "wind_speed": 19.5,
+            "precipitation": 0
+        },
+        {
+            "timestamp": "2026-02-01T14:20:05Z",
+            "temperature": 27.86,
+            "humidity": 23.84961,
+            "pressure": 1006.727,
+            "wind_speed": 19.7,
+            "precipitation": 0
+        },
+        {
+            "timestamp": "2026-02-01T15:20:06Z",
+            "temperature": 25.69,
+            "humidity": 23.48926,
+            "pressure": 1006.195,
+            "wind_speed": 19.1,
+            "precipitation": 0
+        },
+        {
+            "timestamp": "2026-02-01T16:20:05Z",
+            "temperature": 21.62,
+            "humidity": 17.50977,
+            "pressure": 1007.013,
+            "wind_speed": 18,
+            "precipitation": 0
+        },
+        {
+            "timestamp": "2026-02-01T17:20:06Z",
+            "temperature": 20.67,
+            "humidity": 17.41406,
+            "pressure": 1007.349,
+            "wind_speed": 20.5,
+            "precipitation": 0
+        },
+        {
+            "timestamp": "2026-02-01T18:20:06Z",
+            "temperature": 19.75,
+            "humidity": 19.61621,
+            "pressure": 1007.333,
+            "wind_speed": 19.5,
+            "precipitation": 0
+        },
+        {
+            "timestamp": "2026-02-01T19:20:07Z",
+            "temperature": 24.36,
+            "humidity": 23.03613,
+            "pressure": 1007.305,
+            "wind_speed": 17.6,
+            "precipitation": 0
+        },
+        {
+            "timestamp": "2026-02-01T20:20:06Z",
+            "temperature": 25.77,
+            "humidity": 25.96777,
+            "pressure": 1007.574,
+            "wind_speed": 18.1,
+            "precipitation": 0.1
+        },
+        {
+            "timestamp": "2026-02-01T21:20:07Z",
+            "temperature": 27.4,
+            "humidity": 29.72656,
+            "pressure": 1007.813,
+            "wind_speed": 17.3,
+            "precipitation": 0.2
+        }
+    ],
+    "_local_saved_at": "2026-02-01 23:20:06"
+}

@@ -188,8 +188,10 @@ Proiect_ReteleNeuronale_Meteo/
 │       ├── training_history_raw_data_only_V2_experimental.csv
 │       └── training_history_weighted_loss_V3.csv
 ├── src/
-│   ├── app/                       # Script UI
-│   │   └── dashboard.py
+│   ├── app/                       # Script UI și API Esp32 Azure
+│   │   ├── azure_listener.py      # API care așteaptă datele de la ESP32 prin Azure IoT Hub
+│   │   ├── dashboard.py           # Pagina de vizualizare și manipulare date și predicție 
+│   │   └── latest_telemetry.json  # Ultimul mesaj de telemetrie primit de la ESP32
 │   ├── data_acquisition/          # Script descărcare, generare și impachetare hibridă
 │   │   ├── __init__.py            # Inițializarea pachetului
 │   │   ├── data_loader.py         # Descarcă datele istorice brute de la API-ul Open-Meteo

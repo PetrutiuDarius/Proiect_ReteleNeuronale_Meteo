@@ -124,7 +124,7 @@ def main():
     # Load data
     df = load_hybrid_data()
 
-    # Generate stats table
+    # Generate stats tablea
     generate_statistics_table(df)
 
     # Generate visualizations

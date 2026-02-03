@@ -180,7 +180,7 @@ python src/neural_network/train.py
 
 3.  **Pagina "Monitor ESP32":**
     * Placeholder pentru fluxul de date hardware. Afișează statusul conexiunii și ultimele valori citite de la senzori.
-    * ![ESP32 Monitor](docs/screenshots/dashboard_liveESP.png)
+    * ![ESP32 Monitor](docs/screenshots/dashboard_liveESP_etapa_5.png)
 
 **Rulare:**
 ```bash

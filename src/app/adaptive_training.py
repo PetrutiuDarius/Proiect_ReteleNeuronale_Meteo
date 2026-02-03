@@ -126,7 +126,7 @@ def train_adaptive_model(
 
     # --- ENVIRONMENT SETUP ---
     # Define a unique directory for this location to avoid collisions
-    model_dir = f"models/adaptive/{lat}_{lon}"
+    model_dir = f"adaptive_models/{lat}_{lon}"
     os.makedirs(model_dir, exist_ok=True)
 
     model_path = os.path.join(model_dir, "model.keras")

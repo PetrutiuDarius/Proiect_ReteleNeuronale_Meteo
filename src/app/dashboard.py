@@ -24,6 +24,8 @@ import sys
 import tensorflow as tf
 import time
 import json
+import psutil
+import subprocess
 from datetime import datetime, timedelta
 from tensorflow.keras.models import load_model
 from geopy.geocoders import Nominatim
@@ -77,6 +79,35 @@ st.markdown("""
     }
     </style>
 """, unsafe_allow_html=True)
+
+# =============================================================================
+#  VERIFICATIONS
+# =============================================================================
+
+def ensure_azure_listener_running():
+    """
+    Verifies if the background service 'azure_listener.py' is running.
+    If not, it starts it in a separate process.
+    """
+    listener_script = os.path.join(os.path.dirname(__file__), "azure_listener.py")
+    is_running = False
+
+    # I verify through the active processes list
+    for proc in psutil.process_iter(['pid', 'name', 'cmdline']):
+        try:
+            if proc.info['cmdline'] and any("azure_listener.py" in arg for arg in proc.info['cmdline']):
+                is_running = True
+                break
+        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+            pass
+
+    # If not running, I launch it in a separate process
+    if not is_running:
+        print("⚠️ Azure Listener inactiv. Se pornește automat...")
+        subprocess.Popen([sys.executable, listener_script], cwd=os.path.dirname(listener_script))
+        st.toast("🚀 Serviciul Azure Listener a fost pornit automat!", icon="server")
+    else:
+        print("✅ Azure Listener este deja activ.")
 
 # =============================================================================
 #  CORE AI FUNCTIONS (LOSS & LOADING)
@@ -553,7 +584,7 @@ def page_esp32_monitor(default_model, default_scaler):
                     """)
 
                 c_train_1, c_train_2 = st.columns([2, 1], gap="medium")
-                custom_model_dir = f"models/adaptive/{esp_lat}_{esp_lon}"
+                custom_model_dir = f"adaptive_models/{esp_lat}_{esp_lon}"
                 has_custom_model = os.path.exists(os.path.join(custom_model_dir, "model.keras"))
 
                 with c_train_1:
@@ -645,6 +676,7 @@ def page_esp32_monitor(default_model, default_scaler):
 # =============================================================================
 
 def main():
+    ensure_azure_listener_running()
     model, scaler = load_ai_core()
 
     t1, t2, t3 = st.tabs(["🇷🇴 România Live", "🎛️ Simulator", "📡 ESP32 Monitor"])

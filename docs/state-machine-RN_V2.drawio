@@ -1,0 +1,496 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 OPR/126.0.0.0" version="29.2.9">
+  <diagram name="Page-1" id="OGjFdZtKjGrXn3ov5zTG">
+    <mxGraphModel dx="2495" dy="1416" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="1700" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="kopel-yXkHjHhuJdfrXg-163" parent="1" style="swimlane;startSize=0;fillStyle=auto;fillColor=none;strokeColor=#D6D6D6;glass=0;swimlaneFillColor=#FFFFFF;" value="" vertex="1">
+          <mxGeometry height="1167" width="1966" x="89" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-171" edge="1" parent="kopel-yXkHjHhuJdfrXg-163" source="kopel-yXkHjHhuJdfrXg-165" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="kopel-yXkHjHhuJdfrXg-170">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-173" connectable="0" parent="kopel-yXkHjHhuJdfrXg-171" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Nu" vertex="1">
+          <mxGeometry relative="1" x="-0.1812" y="-3" as="geometry">
+            <mxPoint x="11" y="-1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-174" edge="1" parent="kopel-yXkHjHhuJdfrXg-163" source="kopel-yXkHjHhuJdfrXg-165" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="kopel-yXkHjHhuJdfrXg-170" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-165" parent="kopel-yXkHjHhuJdfrXg-163" style="rhombus;whiteSpace=wrap;html=1;" value="Există 24 de ore&amp;nbsp;&lt;div&gt;de date primite de la device?&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="123.75" width="181" x="1269" y="735.63" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-170" parent="kopel-yXkHjHhuJdfrXg-163" style="rounded=1;whiteSpace=wrap;html=1;" value="Se generează datele necesare constante până se ajunge la cele 24 de ore de date." vertex="1">
+          <mxGeometry height="80" width="120" x="1299.5" y="626" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-44" edge="1" parent="1" source="PYIt_YxeIJxMltNypqou-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="kopel-yXkHjHhuJdfrXg-14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="PYIt_YxeIJxMltNypqou-1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Inițializare" vertex="1">
+          <mxGeometry height="60" width="120" x="340" y="458" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-1" edge="1" parent="1" source="PYIt_YxeIJxMltNypqou-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="PYIt_YxeIJxMltNypqou-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="PYIt_YxeIJxMltNypqou-3" parent="1" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#000000;" value="&lt;font style=&quot;color: rgb(255, 255, 255);&quot;&gt;Start&lt;/font&gt;" vertex="1">
+          <mxGeometry height="80" width="80" x="197" y="448" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-5" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="kopel-yXkHjHhuJdfrXg-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-81" connectable="0" parent="kopel-yXkHjHhuJdfrXg-5" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Nu" vertex="1">
+          <mxGeometry relative="1" x="-0.0605" as="geometry">
+            <mxPoint x="-19" y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-2" parent="1" style="rhombus;whiteSpace=wrap;html=1;" value="Utilizatorul este pe pagina România Live?&lt;div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="132" width="140" x="655" y="422" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-8" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="kopel-yXkHjHhuJdfrXg-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-82" connectable="0" parent="kopel-yXkHjHhuJdfrXg-8" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Nu" vertex="1">
+          <mxGeometry relative="1" x="0.0702" y="3" as="geometry">
+            <mxPoint x="-23" y="-9" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-71" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="kopel-yXkHjHhuJdfrXg-70">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-80" connectable="0" parent="kopel-yXkHjHhuJdfrXg-71" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Da" vertex="1">
+          <mxGeometry relative="1" x="-0.6337" y="3" as="geometry">
+            <mxPoint x="-16" y="4" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-4" parent="1" style="rhombus;whiteSpace=wrap;html=1;" value="Utilizatorul este pe pagina de simulare de date?" vertex="1">
+          <mxGeometry height="132" width="140" x="854" y="422" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-10" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" target="PYIt_YxeIJxMltNypqou-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1230" y="488" />
+              <mxPoint x="1230" y="406" />
+              <mxPoint x="430" y="406" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-83" connectable="0" parent="kopel-yXkHjHhuJdfrXg-10" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Nu" vertex="1">
+          <mxGeometry relative="1" x="-0.9623" y="-3" as="geometry">
+            <mxPoint x="-11" y="-16" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-93" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="kopel-yXkHjHhuJdfrXg-92">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-94" connectable="0" parent="kopel-yXkHjHhuJdfrXg-93" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Da" vertex="1">
+          <mxGeometry relative="1" x="-0.1209" y="1" as="geometry">
+            <mxPoint x="-14" y="-9" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-7" parent="1" style="rhombus;whiteSpace=wrap;html=1;" value="Utilizatorul este pe pagina de monitorizare date ESP32?" vertex="1">
+          <mxGeometry height="132" width="140" x="1053" y="422" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-45" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="kopel-yXkHjHhuJdfrXg-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-14" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Idle/Așteptare" vertex="1">
+          <mxGeometry height="60" width="120" x="503" y="458" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-23" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="kopel-yXkHjHhuJdfrXg-22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-78" connectable="0" parent="kopel-yXkHjHhuJdfrXg-23" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Da" vertex="1">
+          <mxGeometry relative="1" x="-0.0827" y="2" as="geometry">
+            <mxPoint x="-14" y="-4" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-47" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="kopel-yXkHjHhuJdfrXg-14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-77" connectable="0" parent="kopel-yXkHjHhuJdfrXg-47" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Nu" vertex="1">
+          <mxGeometry relative="1" x="-0.762" as="geometry">
+            <mxPoint x="11" y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-16" parent="1" style="rhombus;whiteSpace=wrap;html=1;" value="Utilizatorul alege&amp;nbsp;&lt;div&gt;orașul pe care să se facă predicția și apasă butonul de actualizare?&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="145" width="181" x="634.5" y="593" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-69" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="kopel-yXkHjHhuJdfrXg-25">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="350" y="806" />
+              <mxPoint x="350" y="1090" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-22" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Achiziție ultimele 24 de ore de date despre locația alasă." vertex="1">
+          <mxGeometry height="60" width="120" x="665" y="776" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-28" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="kopel-yXkHjHhuJdfrXg-27">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-25" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Preprocesare date." vertex="1">
+          <mxGeometry height="60" width="120" x="442" y="1060" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-31" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-27" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="kopel-yXkHjHhuJdfrXg-30">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-27" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;strokeColor=#0000FF;" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Crearea predicției (AI).&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="120" x="653" y="1060" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-67" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-30" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="kopel-yXkHjHhuJdfrXg-32">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-30" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Postprocesare date predicție.&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="120" x="864" y="1060" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-52" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="kopel-yXkHjHhuJdfrXg-48">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-76" connectable="0" parent="kopel-yXkHjHhuJdfrXg-52" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Da" vertex="1">
+          <mxGeometry relative="1" x="-0.1212" as="geometry">
+            <mxPoint x="-14" y="-16" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-65" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="kopel-yXkHjHhuJdfrXg-49">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-74" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="kopel-yXkHjHhuJdfrXg-49" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-75" connectable="0" parent="kopel-yXkHjHhuJdfrXg-74" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Nu" vertex="1">
+          <mxGeometry relative="1" x="-0.4337" as="geometry">
+            <mxPoint x="20" y="-11" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-32" parent="1" style="rhombus;whiteSpace=wrap;html=1;" value="Sunt date extreme?" vertex="1">
+          <mxGeometry height="80" width="80" x="673" y="1175" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-46" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.498;entryY=0.003;entryDx=0;entryDy=0;entryPerimeter=0;" target="kopel-yXkHjHhuJdfrXg-16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-79" connectable="0" parent="kopel-yXkHjHhuJdfrXg-46" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Da" vertex="1">
+          <mxGeometry relative="1" x="-0.2034" y="1" as="geometry">
+            <mxPoint x="-13" y="-6" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-66" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-48" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="kopel-yXkHjHhuJdfrXg-49">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-48" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;strokeColor=#FF0000;" value="&lt;div style=&quot;&quot;&gt;Declanșează alertă.&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="120" x="653" y="1321" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-68" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-49" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" target="kopel-yXkHjHhuJdfrXg-14">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="289" y="1216" />
+              <mxPoint x="289" y="582" />
+              <mxPoint x="474" y="582" />
+              <mxPoint x="474" y="503" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-49" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;" value="&lt;div style=&quot;&quot;&gt;Actualizează tabloul de bord.&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="120" x="442" y="1186" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-85" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-70" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="kopel-yXkHjHhuJdfrXg-84">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-86" connectable="0" parent="kopel-yXkHjHhuJdfrXg-85" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Da" vertex="1">
+          <mxGeometry relative="1" x="0.0677" y="-1" as="geometry">
+            <mxPoint x="-10" y="-9" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-89" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-70" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0;exitDx=0;exitDy=0;entryX=0.75;entryY=1;entryDx=0;entryDy=0;" target="kopel-yXkHjHhuJdfrXg-14">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="879" y="580" />
+              <mxPoint x="593" y="580" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-91" connectable="0" parent="kopel-yXkHjHhuJdfrXg-89" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Nu" vertex="1">
+          <mxGeometry relative="1" x="-0.8152" y="3" as="geometry">
+            <mxPoint x="-12" y="17" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-70" parent="1" style="rhombus;whiteSpace=wrap;html=1;" value="Utilizatorul alege&amp;nbsp;&lt;div&gt;datele pe care să se facă simularea și apasă butonul de generare?&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="145" width="181" x="833.5" y="593" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-88" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-84" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" target="kopel-yXkHjHhuJdfrXg-25">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="894" y="873" />
+              <mxPoint x="422" y="873" />
+              <mxPoint x="422" y="1075" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-84" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Generarea a 24 de seturi de date constante, dar cu timestamp din ultimele 24 de ore." vertex="1">
+          <mxGeometry height="74" width="120" x="864" y="776" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-95" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-92" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="PYIt_YxeIJxMltNypqou-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1244" y="666" />
+              <mxPoint x="1244" y="390" />
+              <mxPoint x="400" y="390" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-96" connectable="0" parent="kopel-yXkHjHhuJdfrXg-95" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Nu" vertex="1">
+          <mxGeometry relative="1" x="-0.9614" y="2" as="geometry">
+            <mxPoint x="-15" y="-9" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-98" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-92" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="kopel-yXkHjHhuJdfrXg-97">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-99" connectable="0" parent="kopel-yXkHjHhuJdfrXg-98" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Da" vertex="1">
+          <mxGeometry relative="1" x="0.0677" y="1" as="geometry">
+            <mxPoint x="-14" y="-9" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-92" parent="1" style="rhombus;whiteSpace=wrap;html=1;" value="&lt;div&gt;Scriptul&amp;nbsp;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;pentru primirea mesajelor din Azure rulează?&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="145" width="181" x="1032.5" y="593" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-100" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-97" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" target="kopel-yXkHjHhuJdfrXg-14">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1277" y="840" />
+              <mxPoint x="1277" y="374" />
+              <mxPoint x="533" y="374" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-101" connectable="0" parent="kopel-yXkHjHhuJdfrXg-100" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Nu" vertex="1">
+          <mxGeometry relative="1" x="-0.957" y="-3" as="geometry">
+            <mxPoint x="-18" y="-16" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-103" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-97" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="kopel-yXkHjHhuJdfrXg-102">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-104" connectable="0" parent="kopel-yXkHjHhuJdfrXg-103" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Da" vertex="1">
+          <mxGeometry relative="1" x="-0.8813" y="4" as="geometry">
+            <mxPoint x="-34" y="-7" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-97" parent="1" style="rhombus;whiteSpace=wrap;html=1;" value="&lt;div&gt;Există mesaje primite&amp;nbsp;&lt;/div&gt;&lt;div&gt;în fișierul&amp;nbsp;&lt;/div&gt;&lt;div&gt;latest_telemetry.json?&lt;/div&gt;" vertex="1">
+          <mxGeometry height="129" width="181" x="1032.5" y="776" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-106" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-102" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" target="kopel-yXkHjHhuJdfrXg-105">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-107" connectable="0" parent="kopel-yXkHjHhuJdfrXg-106" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Nu" vertex="1">
+          <mxGeometry relative="1" x="-0.4288" y="2" as="geometry">
+            <mxPoint x="-14" y="7" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-111" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-102" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="kopel-yXkHjHhuJdfrXg-110">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-112" connectable="0" parent="kopel-yXkHjHhuJdfrXg-111" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Da" vertex="1">
+          <mxGeometry relative="1" x="0.102" y="-3" as="geometry">
+            <mxPoint x="-20" y="-13" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-102" parent="1" style="rhombus;whiteSpace=wrap;html=1;" value="Datele din mesaj sunt valide?" vertex="1">
+          <mxGeometry height="111.5" width="181" x="1358" y="518" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-108" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-105" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" target="PYIt_YxeIJxMltNypqou-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1449" y="367" />
+              <mxPoint x="370" y="367" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-105" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#FF6666;" value="Afișsare mesaj eroare în tabloul de bord." vertex="1">
+          <mxGeometry height="60" width="120" x="1388.5" y="411" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-114" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-110" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="kopel-yXkHjHhuJdfrXg-113">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-115" connectable="0" parent="kopel-yXkHjHhuJdfrXg-114" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Automată" vertex="1">
+          <mxGeometry relative="1" x="-0.2306" y="1" as="geometry">
+            <mxPoint x="3" y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-119" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-110" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="kopel-yXkHjHhuJdfrXg-118">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-120" connectable="0" parent="kopel-yXkHjHhuJdfrXg-119" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Manuală" vertex="1">
+          <mxGeometry relative="1" x="-0.0234" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-110" parent="1" style="rhombus;whiteSpace=wrap;html=1;" value="Utilizatorul a ales&amp;nbsp;&lt;div&gt;reactulizare date manuală&amp;nbsp;&lt;/div&gt;&lt;div&gt;sau&amp;nbsp;&lt;/div&gt;&lt;div&gt;automată odată&amp;nbsp;&lt;/div&gt;&lt;div&gt;la 5 minute?&lt;/div&gt;" vertex="1">
+          <mxGeometry height="152.5" width="181" x="1595" y="497.5" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-116" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-113" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0;entryDx=0;entryDy=0;" target="kopel-yXkHjHhuJdfrXg-92">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="2009" y="574" />
+              <mxPoint x="2009" y="384" />
+              <mxPoint x="1306" y="384" />
+              <mxPoint x="1306" y="544" />
+              <mxPoint x="1168" y="544" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-117" connectable="0" parent="kopel-yXkHjHhuJdfrXg-116" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Da" vertex="1">
+          <mxGeometry relative="1" x="-0.9899" y="1" as="geometry">
+            <mxPoint y="-9" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-121" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-113" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="kopel-yXkHjHhuJdfrXg-118">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-122" connectable="0" parent="kopel-yXkHjHhuJdfrXg-121" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Nu" vertex="1">
+          <mxGeometry relative="1" x="-0.8488" y="-3" as="geometry">
+            <mxPoint x="17" y="-11" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-113" parent="1" style="rhombus;whiteSpace=wrap;html=1;" value="Au trecut 5 minute&amp;nbsp;&lt;div&gt;de la&amp;nbsp;&lt;/div&gt;&lt;div&gt;ultima actulizare?&lt;/div&gt;" vertex="1">
+          <mxGeometry height="131.25" width="140" x="1849" y="508.12" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-124" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-118" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="kopel-yXkHjHhuJdfrXg-123">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-118" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Se clasifică datele primite în nume device, coordonate și date meteo." vertex="1">
+          <mxGeometry height="60" width="120" x="1625.5" y="705" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-127" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-123" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="kopel-yXkHjHhuJdfrXg-125">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-123" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Se determină locația device-ului după coordonatele primite." vertex="1">
+          <mxGeometry height="60" width="120" x="1388.5" y="705" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-129" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-125" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="kopel-yXkHjHhuJdfrXg-128" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-125" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Se afișează numele device-ului, data ultimului mesaj primit și locația acestuia." vertex="1">
+          <mxGeometry height="60" width="120" x="1388.5" y="825" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-136" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-128" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="kopel-yXkHjHhuJdfrXg-133">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-138" connectable="0" parent="kopel-yXkHjHhuJdfrXg-136" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Da" vertex="1">
+          <mxGeometry relative="1" x="-0.3027" y="-5" as="geometry">
+            <mxPoint x="-10" y="-14" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-141" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-128" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="kopel-yXkHjHhuJdfrXg-140">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-142" connectable="0" parent="kopel-yXkHjHhuJdfrXg-141" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Nu" vertex="1">
+          <mxGeometry relative="1" x="-0.231" y="1" as="geometry">
+            <mxPoint x="11" y="-4" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-128" parent="1" style="rhombus;whiteSpace=wrap;html=1;" value="Există model adaptiv&amp;nbsp;&lt;div&gt;antrenat local în folderul adaptive_models?&lt;/div&gt;" vertex="1">
+          <mxGeometry height="123.75" width="181" x="1595" y="793.12" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-154" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-130" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="kopel-yXkHjHhuJdfrXg-150">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-159" connectable="0" parent="kopel-yXkHjHhuJdfrXg-154" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Da" vertex="1">
+          <mxGeometry relative="1" x="-0.2829" y="-3" as="geometry">
+            <mxPoint x="-10" y="-9" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-166" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-130" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="kopel-yXkHjHhuJdfrXg-165">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-167" connectable="0" parent="kopel-yXkHjHhuJdfrXg-166" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Nu" vertex="1">
+          <mxGeometry relative="1" x="-0.3077" y="-3" as="geometry">
+            <mxPoint x="6" y="-7" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-130" parent="1" style="rhombus;whiteSpace=wrap;html=1;" value="Utilizatorul apasă&amp;nbsp;&lt;div&gt;butonul de antrenare&amp;nbsp;&lt;/div&gt;&lt;div&gt;model adaptiv local bazat pe&amp;nbsp;&lt;/div&gt;&lt;div&gt;coordonatele device-ului&amp;nbsp;&lt;/div&gt;&lt;div&gt;curent?&lt;/div&gt;" vertex="1">
+          <mxGeometry height="145" width="202" x="1584.5" y="1055" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-144" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-133" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="kopel-yXkHjHhuJdfrXg-143">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-133" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Se alege ca implicit modelul adaptiv antrenat local" vertex="1">
+          <mxGeometry height="60" width="120" x="1859" y="824.99" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-147" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-140" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="kopel-yXkHjHhuJdfrXg-130">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-140" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Se alege ca implicit modelul principal." vertex="1">
+          <mxGeometry height="60" width="120" x="1625.5" y="956" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-145" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-143" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="kopel-yXkHjHhuJdfrXg-140">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-148" connectable="0" parent="kopel-yXkHjHhuJdfrXg-145" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Da" vertex="1">
+          <mxGeometry relative="1" x="-0.2512" y="-1" as="geometry">
+            <mxPoint x="11" y="-11" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-146" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-143" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="kopel-yXkHjHhuJdfrXg-130">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-149" connectable="0" parent="kopel-yXkHjHhuJdfrXg-146" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Nu" vertex="1">
+          <mxGeometry relative="1" x="-0.7384" y="-1" as="geometry">
+            <mxPoint x="-14" y="-16" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-143" parent="1" style="rhombus;whiteSpace=wrap;html=1;" value="Utilizatorul apasă butonul de dezactivare a modelului adaptiv antrenat local?" vertex="1">
+          <mxGeometry height="133.13" width="202" x="1818" y="919.44" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-155" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-150" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="kopel-yXkHjHhuJdfrXg-151">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-150" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Se descarcă local o istorie meteo de 5 ani pe baza coordonatelor device-ului." vertex="1">
+          <mxGeometry height="60" width="145.5" x="1612.75" y="1251" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-156" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-151" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="kopel-yXkHjHhuJdfrXg-152">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-151" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Se antrenează local un nou model adaptiv pe baza arhitecturii deja existente." vertex="1">
+          <mxGeometry height="60" width="145.5" x="1375.75" y="1381" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-157" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-152" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="kopel-yXkHjHhuJdfrXg-153">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-152" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Se salvează noul model, noul scaler si un fișier cu rezultatele de test ale noului model într-un folder supranumit coordonatelor device-ului." vertex="1">
+          <mxGeometry height="100" width="145.5" x="1612.75" y="1361" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-158" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-153" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0;entryDx=0;entryDy=0;" target="kopel-yXkHjHhuJdfrXg-128">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="2027" y="1411" />
+              <mxPoint x="2027" y="797" />
+              <mxPoint x="1731" y="797" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-153" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Se afișează în tabloul de bord rezultatele de test ale noului model." vertex="1">
+          <mxGeometry height="100" width="145.5" x="1846.25" y="1361" as="geometry" />
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-168" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-165" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" target="kopel-yXkHjHhuJdfrXg-25">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1293" y="1128" />
+              <mxPoint x="1293" y="1040" />
+              <mxPoint x="532" y="1040" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-169" connectable="0" parent="kopel-yXkHjHhuJdfrXg-168" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Da" vertex="1">
+          <mxGeometry relative="1" x="-0.9561" y="1" as="geometry">
+            <mxPoint x="3" y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kopel-yXkHjHhuJdfrXg-172" edge="1" parent="1" source="kopel-yXkHjHhuJdfrXg-170" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="kopel-yXkHjHhuJdfrXg-25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

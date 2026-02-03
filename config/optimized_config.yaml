@@ -1,0 +1,52 @@
+dataset:
+  target_columns:
+    - "temperature"
+    - "humidity"
+    - "pressure"
+    - "wind_speed"
+    - "precipitation"
+  sequence_length: 24
+  prediction_horizon: 1
+  train_split: 0.7
+  val_split: 0.2
+  test_split: 0.1
+
+preprocessing:
+  scaler_type: "MinMaxScaler"
+  feature_range: [0, 1]
+  transformations:
+    precipitation: "log1p"
+    time_encoding: "sin_cos_embeddings"
+
+model_architecture:
+  type: "LSTM_Stacked"
+  input_shape: [168, 9]
+  layers:
+    - type: "LSTM"
+      units: 64
+      return_sequences: true
+      activation: "tanh"
+    - type: "Dropout"
+      rate: 0.3
+    - type: "LSTM"
+      units: 32
+      return_sequences: false
+      activation: "tanh"
+    - type: "Dense"
+      units: 5
+
+training_hyperparameters:
+  batch_size: 32
+  epochs: 50
+  learning_rate: 0.001
+  optimizer: "Adam"
+  loss_function: "asymmetric_precipitation_loss"
+  metrics: ["mae", "mse"]
+  early_stopping:
+    monitor: "val_loss"
+    patience: 5
+    restore_best_weights: true
+
+inference:
+  threshold_rain_event: 0.1
+  latency_target_ms: 50

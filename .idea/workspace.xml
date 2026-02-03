@@ -5,28 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9f34c434-bcbe-4f42-8c2a-f9209ac9dc18" name="Changes" comment="Etapa 5&#10;Realizarea documentatiei initiale pentru etapa 5 cu obiectivele etapei.">
-      <change afterPath="$PROJECT_DIR$/config/optimized_config.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/confusion_matrix_optimized.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/screenshots/dashboard_liveESP_1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/screenshots/dashboard_liveESP_2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/screenshots/inference_optimized.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/state-machine-RN_V2.drawio" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/state-machine-RN_V2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/optimized_model.keras" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/docs_generators/generate_confusion.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/neural_network/optimize.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/generated/hybrid_dataset.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/generated/synthetic_extremes.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/raw/weather_history_raw.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/test/test.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/train/train.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/validation/validation.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/demo/dashboard_liveESP_demo.mp4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README_Etapa4_Arhitectura_SIA.md" beforeDir="false" afterPath="$PROJECT_DIR$/README_Etapa4_Arhitectura_SIA.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README_Etapa6_Analiza_Performantei_Optimizare_Concluzii.md" beforeDir="false" afterPath="$PROJECT_DIR$/README_Etapa6_Analiza_Performantei_Optimizare_Concluzii.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/screenshots/dashboard_liveESP.png" beforeDir="false" afterPath="$PROJECT_DIR$/docs/screenshots/dashboard_liveESP_etapa_5.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/adaptive_training.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/adaptive_training.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/dashboard.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README_Etapa3_Analiza_Date.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/README_Etapa3_Analiza_Date.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README_Etapa4_Arhitectura_SIA.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/README_Etapa4_Arhitectura_SIA.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README_Etapa5_Antrenare_RN.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/README_Etapa5_Antrenare_RN.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README_Etapa6_Analiza_Performantei_Optimizare_Concluzii.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/README_Etapa6_Analiza_Performantei_Optimizare_Concluzii.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/latest_telemetry.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/latest_telemetry.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/models/adaptive/44.447_26.0185/metrics.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/adaptive_models/44.447_26.0185/metrics.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/models/adaptive/44.447_26.0185/model.keras" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/adaptive_models/44.447_26.0185/model.keras" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/models/adaptive/44.447_26.0185/scaler.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/adaptive_models/44.447_26.0185/scaler.pkl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/docs_generators/generate_docs.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/docs_generators/generate_docs.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,11 +99,11 @@
       <recent name="C:\Users\dariu\Desktop\Retele Neuronale - RN\Proiect\Proiect_ReteleNeuronale_Meteo\results" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\dariu\Desktop\Retele Neuronale - RN\Proiect\Proiect_ReteleNeuronale_Meteo\docs" />
       <recent name="C:\Users\dariu\Desktop\Retele Neuronale - RN\Proiect\Proiect_ReteleNeuronale_Meteo\src\app\adaptive_models" />
       <recent name="C:\Users\dariu\Desktop\Retele Neuronale - RN\Proiect\Proiect_ReteleNeuronale_Meteo\docs\loss_curve_all_versions" />
       <recent name="C:\Users\dariu\Desktop\Retele Neuronale - RN\Proiect\Proiect_ReteleNeuronale_Meteo\docs\prediction_plot_all_versions" />
       <recent name="C:\Users\dariu\Desktop\Retele Neuronale - RN\Proiect\Proiect_ReteleNeuronale_Meteo\results\training_history_all_versions" />
-      <recent name="C:\Users\dariu\Desktop\Retele Neuronale - RN\Proiect\Proiect_ReteleNeuronale_Meteo\results\test_metrics_all_versions" />
     </key>
   </component>
   <component name="RunManager" selected="Python.optimize">
@@ -280,7 +273,7 @@
       <workItem from="1769894846580" duration="1801000" />
       <workItem from="1769896785076" duration="1166000" />
       <workItem from="1769942442651" duration="28809000" />
-      <workItem from="1770059700157" duration="18236000" />
+      <workItem from="1770059700157" duration="32495000" />
     </task>
     <task id="LOCAL-00001" summary="Am modificat structurarea datelor de validate si de test.">
       <option name="closed" value="true" />

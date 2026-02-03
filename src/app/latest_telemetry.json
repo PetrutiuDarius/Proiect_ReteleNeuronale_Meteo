@@ -4,54 +4,6 @@
     "lon": 26.0185,
     "history": [
         {
-            "timestamp": "2026-02-02T13:05:55Z",
-            "temperature": 26.21,
-            "humidity": 15.60547,
-            "pressure": 1007.381,
-            "wind_speed": 7,
-            "precipitation": 0
-        },
-        {
-            "timestamp": "2026-02-02T14:05:55Z",
-            "temperature": 25.44,
-            "humidity": 13.2041,
-            "pressure": 1007.602,
-            "wind_speed": 6.1,
-            "precipitation": 0
-        },
-        {
-            "timestamp": "2026-02-02T15:05:55Z",
-            "temperature": 24.83,
-            "humidity": 12.6123,
-            "pressure": 1007.99,
-            "wind_speed": 3.3,
-            "precipitation": 0
-        },
-        {
-            "timestamp": "2026-02-02T16:05:56Z",
-            "temperature": 24.93,
-            "humidity": 14.69629,
-            "pressure": 1008.365,
-            "wind_speed": 2.8,
-            "precipitation": 0
-        },
-        {
-            "timestamp": "2026-02-02T17:05:55Z",
-            "temperature": 26.94,
-            "humidity": 19.41895,
-            "pressure": 1008.749,
-            "wind_speed": 3.9,
-            "precipitation": 0
-        },
-        {
-            "timestamp": "2026-02-02T18:05:56Z",
-            "temperature": 27.4,
-            "humidity": 23.00488,
-            "pressure": 1009.051,
-            "wind_speed": 4.7,
-            "precipitation": 0
-        },
-        {
             "timestamp": "2026-02-02T19:05:56Z",
             "temperature": 27,
             "humidity": 21.54297,
@@ -194,7 +146,55 @@
             "pressure": 1012.317,
             "wind_speed": 4.6,
             "precipitation": 0
+        },
+        {
+            "timestamp": "2026-02-03T13:05:58Z",
+            "temperature": 28.04,
+            "humidity": 16.64551,
+            "pressure": 1012.466,
+            "wind_speed": 4.4,
+            "precipitation": 0
+        },
+        {
+            "timestamp": "2026-02-03T14:05:58Z",
+            "temperature": 28.48,
+            "humidity": 20.26172,
+            "pressure": 1012.518,
+            "wind_speed": 4,
+            "precipitation": 0
+        },
+        {
+            "timestamp": "2026-02-03T15:05:58Z",
+            "temperature": 28.44,
+            "humidity": 22.74023,
+            "pressure": 1012.323,
+            "wind_speed": 2.7,
+            "precipitation": 0
+        },
+        {
+            "timestamp": "2026-02-03T16:05:58Z",
+            "temperature": 28.63,
+            "humidity": 23.49023,
+            "pressure": 1012.783,
+            "wind_speed": 3.9,
+            "precipitation": 0
+        },
+        {
+            "timestamp": "2026-02-03T17:05:58Z",
+            "temperature": 28.46,
+            "humidity": 25.20801,
+            "pressure": 1012.771,
+            "wind_speed": 3.6,
+            "precipitation": 0
+        },
+        {
+            "timestamp": "2026-02-03T18:06:01Z",
+            "temperature": 27.19,
+            "humidity": 22.94727,
+            "pressure": 1013.034,
+            "wind_speed": 4.7,
+            "precipitation": 0
         }
     ],
-    "_local_saved_at": "2026-02-03 14:05:58"
+    "_local_saved_at": "2026-02-03 20:06:02"
 }

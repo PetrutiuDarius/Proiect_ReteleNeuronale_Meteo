@@ -12,14 +12,6 @@ __pycache__/
 .idea/
 .vscode/
 
-# --- Data Assets ---
-data/generated/
-data/raw/
-data/test/
-data/train/
-data/validation/
-*.csv
-
 # --- OS Junk ---
 .DS_Store
 Thumbs.db
